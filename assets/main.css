@@ -1,0 +1,312 @@
+body {
+  color: #fff;
+  background: #111;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 10px;
+  font-size: 14px;
+  font-family: sans-serif;
+}
+body * {
+  box-sizing: border-box;
+  outline: none;
+}
+h1 {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+a:any-link {
+  text-decoration: none;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+}
+.globals-wrapper {
+  width: 400px;
+  display: flex;
+  margin: 0 auto;
+}
+#inputIP {
+  flex: 1;
+  line-height: 1.5rem;
+  box-sizing: border-box;
+  text-align: center;
+  height: 40px;
+  border-radius: 20px;
+  background: #333;
+  color: #fff;
+  border: 2px solid #666;
+}
+#inputIP.and-dev {
+  border-radius: 20px 0 0 20px;
+}
+button {
+  color: #fff;
+  background-color: #800000;
+  border: none;
+  cursor: pointer;
+  border: 2px solid #666;
+  border-left-width: 0;
+  padding-right: 10px;
+  border-radius: 0 20px 20px 0;
+  transition: all 0.25s ease-out;
+}
+button:hover {
+  color: #000;
+  background-color: #fff;
+  transition: all 0.15s ease-in;
+}
+.settings-row {
+  margin: 1.5rem auto 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+.settings-row > label {
+  width: 200px;
+}
+
+.effect {
+  display: flex;
+  width: 400px;
+  margin: 0 auto;
+  justify-content: space-between;
+  margin-top: 1rem;
+  flex-direction: column;
+  flex-direction: column;
+  border: 2px solid #666;
+  border-radius: 20px;
+
+  transition: border-color 0.25s ease-out;
+}
+.effect:hover {
+  border-color: #fff;
+  cursor: pointer;
+  transition: border-color 0.15s ease-in;
+}
+.effect.show {
+  width: 100%;
+}
+.effect.show .settings-row-group.floating {
+  border-radius: 50px;
+}
+.effect:first-child {
+  border: 3px solid #800000;
+}
+.effect .title {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  text-align: center;
+}
+.effect .title > a {
+  flex: 1;
+  padding: 0.7rem 0.5rem 0.7rem 0.5rem;
+}
+.effect .title > div:not(.settingsButton) {
+  flex: 1;
+}
+
+.deleteButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  position: absolute;
+  left: 10px;
+  top: 6px;
+  bottom: 0;
+  background-color: #800000;
+  color: white;
+  border: 2px solid white;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  box-shadow: 1px 1px rgba(0, 0, 0, 0.9);
+  cursor: pointer;
+  transition: all 0.25s ease-out;
+}
+.deleteButton:hover {
+  background-color: white;
+  color: #800000;
+  border: 2px solid #800000;
+  transition: all 0.15s ease-in;
+}
+
+.settingsButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  transition: border-color 0.25s ease-out;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.settingsButton:hover .chevron-arrow {
+  border-color: #fff;
+  transition: border-color 0.15s ease-in;
+}
+.effect .title .title-url {
+  text-transform: capitalize;
+}
+.settings-row-group {
+  display: flex;
+  align-items: center;
+}
+.settings-row-group.floating {
+  position: relative;
+  padding: 1rem 0.7rem 0.7rem 0.7rem;
+  border: 2px solid #666;
+  border-radius: 20px;
+}
+.mw205 {
+  min-width: 205px;
+}
+.mw100 {
+  min-width: 100%;
+}
+.ml1 {
+  margin-left: 1rem;
+}
+.settings-row-group.floating label {
+  position: absolute;
+  top: -0.7rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #111;
+  padding: 0 0.5rem;
+  display: flex;
+  font-variant: all-small-caps;
+}
+input.time {
+  width: 100%;
+}
+
+.settings-row a.url {
+  word-break: break-word;
+}
+.settings {
+  display: none;
+  padding: 0 10px 10px 10px;
+}
+.settings.show {
+  display: block;
+}
+
+input[type='text'],
+input[type='number'] {
+  background: #333;
+  color: #fff;
+  border: 1px solid #333;
+  height: 30px;
+  border-radius: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  transition: border-color 0.25s ease-out;
+}
+input[type='text'] {
+  border-radius: 20px;
+}
+input[type='number'] {
+  text-align: center;
+}
+input[type='text']:focus,
+input[type='number']:focus {
+  border-color: #fff;
+  transition: border-color 0.15s ease-in;
+}
+a:any-link {
+  color: white;
+}
+#hiddenFrame {
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  left: -5px;
+  top: -5px;
+}
+.chevron-arrow {
+  display: inline-block;
+  border-right: 4px solid #666;
+  border-bottom: 4px solid #666;
+  width: 10px;
+  height: 10px;
+  transform-origin: 50% 50%;
+  transition: transform 0.25s ease-in-out;
+}
+.chevron-arrow.down {
+  transform: rotate(45deg);
+}
+.chevron-arrow.up {
+  transform: rotate(225deg);
+}
+
+.floating-button {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  background-color: #800000;
+  color: white;
+  border: 2px solid white;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  box-shadow: 1px 1px rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
+  transition: all 0.25s ease-out;
+}
+.floating-button:hover {
+  background-color: white;
+  color: #800000;
+  border: 2px solid #800000;
+  transition: all 0.15s ease-in;
+}
+
+@media (max-width: 799px) {
+  .container {
+    width: 400px;
+  }
+  .settings-row {
+    flex-direction: column;
+  }
+  .settings-row-group.floating {
+    margin-bottom: 1rem;
+  }
+  input[type='range'],
+  input[type='text'],
+  input[type='number'] {
+    flex: 1;
+  }
+
+  .ml1 {
+    margin-left: 0;
+  }
+}
+@media (max-width: 399px) {
+  .container {
+    width: 100%;
+  }
+  .globals-wrapper {
+    width: 100%;
+  }
+  .effect {
+    width: 100%;
+  }
+}
