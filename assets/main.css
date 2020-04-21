@@ -36,7 +36,7 @@ a:any-link {
   display: flex;
   margin: 0 auto;
 }
-#inputIP {
+.globals-wrapper .globalInput {
   flex: 1;
   line-height: 1.5rem;
   box-sizing: border-box;
@@ -45,6 +45,10 @@ a:any-link {
   border-radius: 20px;
   background: #333;
   color: #fff;
+  border: 2px solid #666;
+  margin-top: 0.5rem;
+}
+#inputIP {
   border: 2px solid #666;
 }
 #inputIP.and-dev {
@@ -60,6 +64,8 @@ button {
   padding-right: 10px;
   border-radius: 0 20px 20px 0;
   transition: all 0.25s ease-out;
+  margin-top: 0.5rem;
+  height: 40px;
 }
 button:hover {
   color: #000;

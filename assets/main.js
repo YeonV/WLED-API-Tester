@@ -29,28 +29,33 @@ const setURLonEffect = (effect, el) => {
   $('.settings-row a.url', el)[0].href = effectsyz[effect.name].urlString;
 };
 
-const renderEffectList = () => {
-  $('#effectlist')[0].innerHTML = Object.keys(effectsyz)
+const renderEffectList = (effectList, filterString) => {
+  $('#effectlist')[0].innerHTML = (filterString
+    ? Object.keys(effectList)
+        .filter(p => p.toLowerCase() !== 'template')
+        .filter(p => p.toLowerCase().includes(filterString.toLowerCase()))
+    : Object.keys(effectList)
+  )
     .map(
       (e, i) => /*html*/ `   
           <div class="effect ${
-            effectsyz[e].name === 'template' ? 'template dev' : ''
+            effectList[e].name === 'template' ? 'template dev' : ''
           }">
         <div class="title">
           <a class="title-url" target="hiddenFrame" href="http://${
             globals.ip
-          }/${effectsyz[e].urlString}">${effectsyz[e].name}</a>
+          }/${effectList[e].urlString}">${effectList[e].name}</a>
           <!--div>
             <a class="url" class="url" target="hiddenFrame" href="http://${
               globals.ip
-            }/${effectsyz[e].urlString}"
-              >${effectsyz[e].urlString.replace('win', '')}</a
+            }/${effectList[e].urlString}"
+              >${effectList[e].urlString.replace('win', '')}</a
             >
           </div-->
           ${
-            effectsyz[e].name === 'template'
+            effectList[e].name === 'template'
               ? ''
-              : effectsyz[e].name === 'sunrise'
+              : effectList[e].name === 'sunrise'
               ? ''
               : '<div  class="deleteButton dev"><i class="icons">&#xe037;</i></div>'
           }
@@ -65,15 +70,15 @@ const renderEffectList = () => {
             <label>URL</label>
                 <a class="url" class="url" target="hiddenFrame" href="http://${
                   globals.ip
-                }/${effectsyz[e].urlString}"
-                >http://${globals.ip}/${effectsyz[e].urlString}</a>
+                }/${effectList[e].urlString}"
+                >http://${globals.ip}/${effectList[e].urlString}</a>
             </div>
             </div>
           <div class="settings-row">
             <div class="settings-row-group floating mw205">
               <label>From</label>
               <i class="icons" style="margin-right: 0.5rem">&#xe2b3;</i><input class="colorPickerOne" type="color" value="#${
-                effectsyz[e].colorOne
+                effectList[e].colorOne
               }" />
               <i class="icons" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe2a6;</i>
               <input
@@ -81,14 +86,14 @@ const renderEffectList = () => {
                 type="range"
                 min="0"
                 max="100"
-                value="${effectsyz[e].brightnessStart}"
+                value="${effectList[e].brightnessStart}"
               />
             </div>
             <div class="settings-row-group floating mw205">
               <label>To</label>
               <i class="icons" style="margin-right: 0.5rem">&#xe2b3;</i>
               <input class="colorPickerTwo" type="color" value="#${
-                effectsyz[e].colorTwo
+                effectList[e].colorTwo
               }" />
              <i class="icons" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe2a6;</i>
               <input
@@ -96,14 +101,14 @@ const renderEffectList = () => {
                 type="range"
                 min="0"
                 max="255"
-                value="${effectsyz[e].brightnessEnd}"
+                value="${effectList[e].brightnessEnd}"
               />
             </div>
             <div class="settings-row-group floating mw205">
               <label>Time in Min</label>
               <i class="icons" style="margin-right: 0.5rem">&#xe325;</i>
               <input class="time" type="range" min="1" max="120" value="${
-                effectsyz[e].timeInMin
+                effectList[e].timeInMin
               }" />
             </div>
             
@@ -113,14 +118,14 @@ const renderEffectList = () => {
               <label>FX:</label>
               <i class="icons" style="margin-right: 0.5rem">&#xe409;</i>
               <input style="width: 60px;" class="fx" min="0" max="150" type="number" value="${
-                effectsyz[e].fx
+                effectList[e].fx
               }" />
             </div>
             <div class="settings-row-group floating ml1" style="flex: 1">
               <label>Extra:</label>
               <i class="icons" style="margin-right: 0.5rem">&#xe23d;</i>
               <input class="extra " type="text"  value="${
-                effectsyz[e].extra
+                effectList[e].extra
               }" style="flex: 1" />
             </div>           
             
@@ -132,7 +137,7 @@ const renderEffectList = () => {
     .join('');
 };
 
-renderEffectList();
+renderEffectList(effectsyz);
 
 /* START Event-Handlers*/
 
@@ -144,6 +149,17 @@ $('#inputIP').each((i, ele) => {
       const effectName = $('.title-url', element)[0].innerText.toLowerCase();
       setURLonEffect(effectsyz[effectName], element);
     });
+  });
+});
+$('#searchInput').each((i, ele) => {
+  /* prepared with each if multiple required. (change id to class then) */
+  $(ele).on('input', e => {
+    console.log(e.currentTarget.value);
+    renderEffectList(effectsyz, e.currentTarget.value);
+    // $('#effectlist .effect').each((i, element) => {
+    //   const effectName = $('.title-url', element)[0].innerText.toLowerCase();
+    //   setURLonEffect(effectsyz[effectName], element);
+    // });
   });
 });
 
@@ -165,7 +181,7 @@ $(() => {
         if (confirmDelete === true) {
           delete effectsyz[effectName];
           console.log('deleting:', effectName);
-          renderEffectList();
+          renderEffectList(effectsyz);
         }
       });
 
@@ -249,8 +265,8 @@ $(() => {
         };
         effectsyz[newName] = tempObj;
         // console.log('SAVED:', effectsyz);
-        //$('#inputIP').removeClass('and-dev');
-        renderEffectList();
+        $('#inputIP').removeClass('and-dev');
+        renderEffectList(effectsyz);
         changeHandlers();
       } else {
         alert('Effect already in List!');
