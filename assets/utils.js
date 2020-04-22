@@ -1,12 +1,12 @@
 function download(filename, text) {
-  const element = document.createElement('a');
+  const element = document.createElement("a");
   element.setAttribute(
-    'href',
-    'data:text/plain;charset=utf-8,' + encodeURIComponent(text)
+    "href",
+    "data:text/plain;charset=utf-8," + encodeURIComponent(text)
   );
-  element.setAttribute('download', filename);
+  element.setAttribute("download", filename);
 
-  element.style.display = 'none';
+  element.style.display = "none";
   document.body.appendChild(element);
 
   element.click();
@@ -60,6 +60,7 @@ function CountDownTimer(duration, granularity) {
   this.granularity = granularity || 1000;
   this.tickFtns = [];
   this.running = false;
+  this.timer = null;
 }
 
 CountDownTimer.prototype.start = function() {
@@ -76,9 +77,7 @@ CountDownTimer.prototype.start = function() {
     diff = that.duration - (((Date.now() - start) / 1000) | 0);
 
     if (diff > 0) {
-      setTimeout(timer, that.granularity);
-      if (isRunning) {
-      }
+      that.timer = setTimeout(timer, that.granularity);
     } else {
       diff = 0;
       that.running = false;
@@ -90,9 +89,15 @@ CountDownTimer.prototype.start = function() {
     }, that);
   })();
 };
+CountDownTimer.prototype.stop = function() {
+  if (this.timer) {
+    clearTimeout(this.timer);
+  }
+  this.running = false;
+};
 
 CountDownTimer.prototype.onTick = function(ftn) {
-  if (typeof ftn === 'function') {
+  if (typeof ftn === "function") {
     this.tickFtns.push(ftn);
   }
   return this;

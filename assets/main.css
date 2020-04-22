@@ -94,9 +94,13 @@ button:hover {
 
   transition: border-color 0.25s ease-out;
 }
-.effect:hover,
-.effect.active {
+.effect:hover {
   border-color: #fff;
+  cursor: pointer;
+  transition: border-color 0.15s ease-in;
+}
+.effect.active {
+  border-color: #0dbedc;
   cursor: pointer;
   transition: border-color 0.15s ease-in;
 }
@@ -219,8 +223,8 @@ input.time {
   display: block;
 }
 
-input[type='text'],
-input[type='number'] {
+input[type="text"],
+input[type="number"] {
   background: #333;
   color: #fff;
   border: 1px solid #333;
@@ -230,14 +234,14 @@ input[type='number'] {
   padding-right: 10px;
   transition: border-color 0.25s ease-out;
 }
-input[type='text'] {
+input[type="text"] {
   border-radius: 20px;
 }
-input[type='number'] {
+input[type="number"] {
   text-align: center;
 }
-input[type='text']:focus,
-input[type='number']:focus {
+input[type="text"]:focus,
+input[type="number"]:focus {
   border-color: #fff;
   transition: border-color 0.15s ease-in;
 }
@@ -315,9 +319,9 @@ a:any-link {
   .settings-row-group.floating {
     margin-bottom: 1rem;
   }
-  input[type='range'],
-  input[type='text'],
-  input[type='number'] {
+  input[type="range"],
+  input[type="text"],
+  input[type="number"] {
     flex: 1;
   }
 
