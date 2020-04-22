@@ -199,6 +199,14 @@ renderEffectList(effectsyz);
 
 $("#inputIP").each((i, ele) => {
   /* prepared with each if multiple required. (change id to class then) */
+  $(ele).focusout(() => {
+    getCurrentState();
+  });
+  $(ele).keypress(e => {
+    if (e.which === 13) {
+      $(ele).blur();
+    }
+  });
   $(ele).on("input", e => {
     globals.ip = e.currentTarget.value;
     $("#effectlist .effect").each((i, element) => {
@@ -207,14 +215,10 @@ $("#inputIP").each((i, ele) => {
     });
   });
 });
-$("#searchInput").each((i, ele) => {
-  /* prepared with each if multiple required. (change id to class then) */
-  $(ele).on("input", e => {
-    renderEffectList(effectsyz, e.currentTarget.value);
-  });
-});
 
 $(() => {
+  getCurrentState();
+
   const changeHandlers = () => {
     let timer2 = null;
     let isRunning = false;
@@ -278,6 +282,7 @@ $(() => {
           $(".effect").each((i, element) => {
             $(element).removeClass("active");
           });
+          setLastCheckedState();
         } else {
           if (isRunning) {
             timer2.stop();
@@ -285,6 +290,7 @@ $(() => {
             $(".effect").each((i, element) => {
               $(element).removeClass("active");
             });
+            setLastCheckedState();
           }
           timer2 = new CountDownTimer(timer);
           $(el).addClass("active");
@@ -386,6 +392,7 @@ $(() => {
       $(".dev").each((i, ele) => {
         $(ele).hide();
       });
+      $("#inputIP").removeClass("and-dev");
     });
   };
   changeHandlers();
@@ -426,12 +433,23 @@ $(() => {
       }
     }
   });
+  $("#searchInput").each((i, ele) => {
+    /* prepared with each if multiple required. (change id to class then) */
+    $(ele).on("input", e => {
+      renderEffectList(effectsyz, e.currentTarget.value);
+      $(".effect.template.dev").each((i, element) => {
+        $("#inputIP").hasClass("and-dev") ? false : false;
+      });
+      changeHandlers();
+    });
+  });
   $("#dev-toggler").on("click", () => {
     $(".dev").each((i, ele) => {
       $(ele).toggle();
     });
     $("#inputIP").toggleClass("and-dev");
   });
+
   $("#export").on("click", e => {
     // console.log('Exporting:', effectsyz);
     const filtered = Object.filter(
