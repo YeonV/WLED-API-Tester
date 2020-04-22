@@ -11,8 +11,14 @@ const effects = {
     brightnessEnd: 255,
     urlString:
       'win&FX=0&SX=128&CL=h00FF0000&C2=h00FFB14A&A=5&NL=10&NT=255&NF=2',
+    useFX: true,
+    useSX: true,
     useCL: true,
-    useA: true
+    useC2: true,
+    useA: true,
+    useNL: true,
+    useNT: true,
+    useEXTRA: true
   },
   blade: {
     name: 'blade',
@@ -25,7 +31,13 @@ const effects = {
     brightnessStart: 5,
     brightnessEnd: 255,
     urlString: 'win&FX=0&SX=128&CL=h000000FF&C2=h00FFB14A&A=5&NL=1&NT=255&NF=2',
-    useCL: true,
-    useA: true
+    useFX: true,
+    useSX: true,
+    useCL: false,
+    useC2: true,
+    useA: true,
+    useNL: true,
+    useNT: true,
+    useEXTRA: true
   }
 };

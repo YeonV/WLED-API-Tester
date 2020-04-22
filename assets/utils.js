@@ -13,6 +13,12 @@ function download(filename, text) {
 
   document.body.removeChild(element);
 }
+
+Object.filter = (obj, predicate) =>
+  Object.keys(obj)
+    .filter(key => predicate(obj[key]))
+    .reduce((res, key) => ((res[key] = obj[key]), res), {});
+
 // function startTimer(duration, display) {
 //   var start = Date.now(),
 //     diff,
@@ -102,8 +108,3 @@ CountDownTimer.parse = function(seconds) {
     seconds: seconds % 60 | 0
   };
 };
-
-Object.filter = (obj, predicate) =>
-  Object.keys(obj)
-    .filter(key => predicate(obj[key]))
-    .reduce((res, key) => ((res[key] = obj[key]), res), {});

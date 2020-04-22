@@ -12,25 +12,45 @@ const template = {
     timeInMin: 10,
     brightnessStart: 5,
     brightnessEnd: 255,
-    urlString: 'win&FX=0&CL=h00FF0000&C2=h00FFB14A&A=5&NL=10&NT=255&NF=2'
+    urlString: 'win&FX=0&CL=h00FF0000&C2=h00FFB14A&A=5&NL=10&NT=255&NF=2',
+    useFX: true,
+    useSX: true,
+    useCL: true,
+    useC2: true,
+    useA: true,
+    useNL: true,
+    useNT: true,
+    useEXTRA: true
   }
 };
 const effectsyz = {...template, ...effects};
 
 const setURLonEffect = (effect, el) => {
-  effectsyz[effect.name].urlString = `http://${globals.ip}/win&FX=${
-    effectsyz[effect.name].fx
-  }&SX=${effectsyz[effect.name].fxSpeed}${
+  effectsyz[effect.name].urlString = `http://${globals.ip}/win${
+    effectsyz[effect.name].useFX ? `&FX=${effectsyz[effect.name].fx}` : ``
+  }${
+    effectsyz[effect.name].useSX ? `&SX=${effectsyz[effect.name].fxSpeed}` : ``
+  }${
     effectsyz[effect.name].useCL
       ? `&CL=h00${effectsyz[effect.name].colorOne}`
       : ``
-  }&C2=h00${effectsyz[effect.name].colorTwo}${
+  }${
+    effectsyz[effect.name].useC2
+      ? `&C2=h00${effectsyz[effect.name].colorTwo}`
+      : ``
+  }${
     effectsyz[effect.name].useA
       ? `&A=${effectsyz[effect.name].brightnessStart}`
       : ``
-  }&NL=${effectsyz[effect.name].timeInMin}&NT=${
-    effectsyz[effect.name].brightnessEnd
-  }${effectsyz[effect.name].extra}`;
+  }${
+    effectsyz[effect.name].useNL
+      ? `&NL=${effectsyz[effect.name].timeInMin}`
+      : ``
+  }${
+    effectsyz[effect.name].useNT
+      ? `&NT=${effectsyz[effect.name].brightnessEnd}`
+      : ``
+  }${effectsyz[effect.name].useEXTRA ? `${effectsyz[effect.name].extra}` : ``}`;
 
   $('.url', el)[0].innerText = effectsyz[effect.name].urlString;
   $('.url', el)[0].href = effectsyz[effect.name].urlString;
@@ -83,7 +103,9 @@ const renderEffectList = (effectList, filterString) => {
             <div class="settings-row-group floating mw205">
               <label class="floating">From</label>
               
-              <i class="icons active cl" style="margin-right: 0.5rem">&#xe2b3;</i>
+              <i class="icons ${
+                effectList[e].useCL ? 'active' : ''
+              } cl" style="margin-right: 0.5rem">&#xe2b3;</i>
       
               
               <input class="colorPickerOne" type="color" value="#${
@@ -94,17 +116,17 @@ const renderEffectList = (effectList, filterString) => {
                 class="brightStart"
                 type="range"
                 min="0"
-                max="100"
+                max="255"
                 value="${effectList[e].brightnessStart}"
               />
             </div>
             <div class="settings-row-group floating mw205">
               <label class="floating">To</label>
-              <i class="icons active" style="margin-right: 0.5rem">&#xe2b3;</i>
+              <i class="icons active c2" style="margin-right: 0.5rem">&#xe2b3;</i>
               <input class="colorPickerTwo" type="color" value="#${
                 effectList[e].colorTwo
               }" />
-             <i class="icons active" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe2a6;</i>
+             <i class="icons active brightnessB" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe2a6;</i>
               <input
                 class="brightEnd"
                 type="range"
@@ -115,7 +137,7 @@ const renderEffectList = (effectList, filterString) => {
             </div>
             <div class="settings-row-group floating mw205">
               <label class="floating">Time in Min</label>
-              <i class="icons active" style="margin-right: 0.5rem">&#xe325;</i>
+              <i class="icons active nl" style="margin-right: 0.5rem">&#xe325;</i>
               <input class="time" type="range" min="1" max="120" value="${
                 effectList[e].timeInMin
               }" />
@@ -125,12 +147,12 @@ const renderEffectList = (effectList, filterString) => {
           <div class="settings-row">
             <div class="settings-row-group floating">
               <label class="floating">FX:</label>
-              <i class="icons active" style="margin-right: 0.5rem">&#xe409;</i>
+              <i class="icons active fx" style="margin-right: 0.5rem">&#xe409;</i>
               <input style="width: 60px;" class="fx" min="0" max="150" type="number" value="${
                 effectList[e].fx
               }" />
 
-              <i class="icons active" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe325;</i>
+              <i class="icons active sx" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe325;</i>
               <input
                 class="fxSpeed"
                 type="range"
@@ -142,7 +164,7 @@ const renderEffectList = (effectList, filterString) => {
           
             <div class="settings-row-group floating ml1" style="flex: 1">
               <label class="floating">Extra:</label>
-              <i class="icons active" style="margin-right: 0.5rem">&#xe23d;</i>
+              <i class="icons active extra" style="margin-right: 0.5rem">&#xe23d;</i>
               <input class="extra " type="text"  value="${
                 effectList[e].extra
               }" style="flex: 1" />
@@ -195,12 +217,41 @@ $(() => {
         const effectName = $('.title-url', el)[0].innerText.toLowerCase();
         const cl = $(e.currentTarget).hasClass('cl');
         const brightnessA = $(e.currentTarget).hasClass('brightnessA');
+        const c2 = $(e.currentTarget).hasClass('c2');
+        const brightnessB = $(e.currentTarget).hasClass('brightnessB');
+        const nl = $(e.currentTarget).hasClass('nl');
+        const sx = $(e.currentTarget).hasClass('sx');
+        const fx = $(e.currentTarget).hasClass('fx');
+        const extra = $(e.currentTarget).hasClass('extra');
         $(e.currentTarget).toggleClass('active');
         if (cl) {
           effectsyz[effectName].useCL = $(e.currentTarget).hasClass('active');
         }
         if (brightnessA) {
           effectsyz[effectName].useA = $(e.currentTarget).hasClass('active');
+        }
+        if (c2) {
+          effectsyz[effectName].useC2 = $(e.currentTarget).hasClass('active');
+        }
+        if (brightnessB) {
+          effectsyz[effectName].useNT = $(e.currentTarget).hasClass('active');
+        }
+        if (nl) {
+          effectsyz[effectName].useNL = $(e.currentTarget).hasClass('active');
+        }
+        if (nl) {
+          effectsyz[effectName].useNL = $(e.currentTarget).hasClass('active');
+        }
+        if (sx) {
+          effectsyz[effectName].useSX = $(e.currentTarget).hasClass('active');
+        }
+        if (fx) {
+          effectsyz[effectName].useFX = $(e.currentTarget).hasClass('active');
+        }
+        if (extra) {
+          effectsyz[effectName].useEXTRA = $(e.currentTarget).hasClass(
+            'active'
+          );
         }
         setURLonEffect(effectsyz[effectName], el);
       });
