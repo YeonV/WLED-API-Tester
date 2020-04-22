@@ -6,13 +6,14 @@ const template = {
   template: {
     name: "template",
     fx: 0,
-    extra: "",
+    fxSpeed: 128,
+    extra: "&NF=2",
     colorOne: "FF0000",
     colorTwo: "FFB14A",
     timeInMin: 10,
     brightnessStart: 5,
     brightnessEnd: 255,
-    urlString: "win&FX=0&CL=h00FF0000&C2=h00FFB14A&A=5&NL=10&NT=255&NF=2",
+    urlString: `http://${globals.ip}/win&FX=0&SX=128&CL=h00FF0000&C2=h00FFB14A&A=5&NL=10&NT=255&NF=2`,
     useFX: true,
     useSX: true,
     useCL: true,
@@ -93,10 +94,10 @@ const renderEffectList = (effectList, filterString) => {
             <div class="settings-row">
             <div class="settings-row-group floating mw100">
             <label class="floating">URL</label>
-                <a class="url" class="url" target="hiddenFrame" href="http://${
-                  globals.ip
-                }/${effectList[e].urlString}"
-                >http://${globals.ip}/${effectList[e].urlString}</a>
+                <a class="url" class="url" target="hiddenFrame" href="${
+                  effectList[e].urlString
+                }"
+                >${effectList[e].urlString}</a>
             </div>
             </div>
           <div class="settings-row">
@@ -111,7 +112,9 @@ const renderEffectList = (effectList, filterString) => {
               <input class="colorPickerOne" type="color" value="#${
                 effectList[e].colorOne
               }" />
-              <i class="icons active brightnessA" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe2a6;</i>
+              <i class="icons ${
+                effectList[e].useA ? "active" : ""
+              } brightnessA" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe2a6;</i>
               <input
                 class="brightStart"
                 type="range"
@@ -122,11 +125,15 @@ const renderEffectList = (effectList, filterString) => {
             </div>
             <div class="settings-row-group floating mw205">
               <label class="floating">To</label>
-              <i class="icons active c2" style="margin-right: 0.5rem">&#xe2b3;</i>
+              <i class="icons ${
+                effectList[e].useC2 ? "active" : ""
+              } c2" style="margin-right: 0.5rem">&#xe2b3;</i>
               <input class="colorPickerTwo" type="color" value="#${
                 effectList[e].colorTwo
               }" />
-             <i class="icons active brightnessB" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe2a6;</i>
+             <i class="icons ${
+               effectList[e].useNT ? "active" : ""
+             } brightnessB" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe2a6;</i>
               <input
                 class="brightEnd"
                 type="range"
@@ -137,7 +144,9 @@ const renderEffectList = (effectList, filterString) => {
             </div>
             <div class="settings-row-group floating mw205">
               <label class="floating">Time in Min</label>
-              <i class="icons active nl" style="margin-right: 0.5rem">&#xe325;</i>
+              <i class="icons ${
+                effectList[e].useNL ? "active" : ""
+              } nl" style="margin-right: 0.5rem">&#xe325;</i>
               <input class="time" type="range" min="1" max="120" value="${
                 effectList[e].timeInMin
               }" />
@@ -147,12 +156,16 @@ const renderEffectList = (effectList, filterString) => {
           <div class="settings-row">
             <div class="settings-row-group floating">
               <label class="floating">FX:</label>
-              <i class="icons active fx" style="margin-right: 0.5rem">&#xe409;</i>
+              <i class="icons ${
+                effectList[e].useFX ? "active" : ""
+              } fx" style="margin-right: 0.5rem">&#xe409;</i>
               <input style="width: 60px;" class="fx" min="0" max="150" type="number" value="${
                 effectList[e].fx
               }" />
 
-              <i class="icons active sx" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe325;</i>
+              <i class="icons ${
+                effectList[e].useSX ? "active" : ""
+              } sx" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe325;</i>
               <input
                 class="fxSpeed"
                 type="range"
@@ -164,7 +177,9 @@ const renderEffectList = (effectList, filterString) => {
           
             <div class="settings-row-group floating ml1" style="flex: 1">
               <label class="floating">Extra:</label>
-              <i class="icons active extra" style="margin-right: 0.5rem">&#xe23d;</i>
+              <i class="icons ${
+                effectList[e].useEXTRA ? "active" : ""
+              } extra" style="margin-right: 0.5rem">&#xe23d;</i>
               <input class="extra " type="text"  value="${
                 effectList[e].extra
               }" style="flex: 1" />
@@ -391,10 +406,18 @@ $(() => {
           brightnessEnd: effectsyz[tempOldName].brightnessEnd,
           urlString: effectsyz[tempOldName].urlString,
           fx: effectsyz[tempOldName].fx,
-          extra: effectsyz[tempOldName].extra
+          fxSpeed: effectsyz[tempOldName].fxSpeed,
+          extra: effectsyz[tempOldName].extra,
+          useCL: effectsyz[tempOldName].useCL,
+          useA: effectsyz[tempOldName].useA,
+          useC2: effectsyz[tempOldName].useC2,
+          useNT: effectsyz[tempOldName].useNT,
+          useFX: effectsyz[tempOldName].useFX,
+          useSX: effectsyz[tempOldName].useSX,
+          useEXTRA: effectsyz[tempOldName].useEXTRA
         };
         effectsyz[newName] = tempObj;
-        // console.log('SAVED:', effectsyz);
+        console.log("SAVED:", effectsyz);
         $("#inputIP").removeClass("and-dev");
         renderEffectList(effectsyz);
         changeHandlers();

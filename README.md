@@ -8,7 +8,22 @@ It comes shipped with:
 - jquery
 - WLED custom-icon-font
 
-And has no other external deps.
+And has no external deps.
+
+## Features
+
+- Searchbar [Livesearch all effects]
+- Run effect on Stripe (Click on EffectName)
+- Show ActiveState of running effect (incl. countdown)
+  - If there is an effect currently running, the first click stops the current countdown. 2nd click starts a new countdown
+- Quickly change effect-settings (click on the chevron)
+  - Toggle if URL should include Paramenter (click on the icon)
+  - Change Values (input next to icons)
+- DEV-Mode (read below how to acces)
+  - Use Template + SaveButton to create new effects
+  - You cant use the same effectName multiple times
+  - You can remove effects using the delete button
+  - When you're done, use the export button
 
 Its in a VERY early stage as its just a PoC.
 
