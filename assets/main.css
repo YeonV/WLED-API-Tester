@@ -188,7 +188,7 @@ button:hover {
 .ml1 {
   margin-left: 1rem;
 }
-.settings-row-group.floating label {
+.settings-row-group.floating label.floating {
   position: absolute;
   top: -0.7rem;
   left: 50%;
@@ -197,6 +197,12 @@ button:hover {
   padding: 0 0.5rem;
   display: flex;
   font-variant: all-small-caps;
+}
+.settings-row-group.floating i {
+  color: #666;
+}
+.settings-row-group.floating i.active {
+  color: #fff;
 }
 input.time {
   width: 100%;

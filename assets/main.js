@@ -18,9 +18,19 @@ const template = {
 const effectsyz = {...template, ...effects};
 
 const setURLonEffect = (effect, el) => {
-  effectsyz[
-    effect.name
-  ].urlString = `http://${globals.ip}/win&FX=${effectsyz[effect.name].fx}&CL=h00${effectsyz[effect.name].colorOne}&C2=h00${effectsyz[effect.name].colorTwo}&A=${effectsyz[effect.name].brightnessStart}&NL=${effectsyz[effect.name].timeInMin}&NT=${effectsyz[effect.name].brightnessEnd}&NF=2${effectsyz[effect.name].extra}`;
+  effectsyz[effect.name].urlString = `http://${globals.ip}/win&FX=${
+    effectsyz[effect.name].fx
+  }&SX=${effectsyz[effect.name].fxSpeed}${
+    effectsyz[effect.name].useCL
+      ? `&CL=h00${effectsyz[effect.name].colorOne}`
+      : ``
+  }&C2=h00${effectsyz[effect.name].colorTwo}${
+    effectsyz[effect.name].useA
+      ? `&A=${effectsyz[effect.name].brightnessStart}`
+      : ``
+  }&NL=${effectsyz[effect.name].timeInMin}&NT=${
+    effectsyz[effect.name].brightnessEnd
+  }${effectsyz[effect.name].extra}`;
 
   $('.url', el)[0].innerText = effectsyz[effect.name].urlString;
   $('.url', el)[0].href = effectsyz[effect.name].urlString;
@@ -46,14 +56,7 @@ const renderEffectList = (effectList, filterString) => {
             globals.ip
           }/${effectList[e].urlString}">${
         effectList[e].name
-      }<span class="countdown"></span></a>
-          <!--div>
-            <a class="url" class="url" target="hiddenFrame" href="http://${
-              globals.ip
-            }/${effectList[e].urlString}"
-              >${effectList[e].urlString.replace('win', '')}</a
-            >
-          </div-->
+      }<span class="countdown"></span></a>      
           ${
             effectList[e].name === 'template'
               ? ''
@@ -69,7 +72,7 @@ const renderEffectList = (effectList, filterString) => {
         <div class="settings">
             <div class="settings-row">
             <div class="settings-row-group floating mw100">
-            <label>URL</label>
+            <label class="floating">URL</label>
                 <a class="url" class="url" target="hiddenFrame" href="http://${
                   globals.ip
                 }/${effectList[e].urlString}"
@@ -78,11 +81,15 @@ const renderEffectList = (effectList, filterString) => {
             </div>
           <div class="settings-row">
             <div class="settings-row-group floating mw205">
-              <label>From</label>
-              <i class="icons" style="margin-right: 0.5rem">&#xe2b3;</i><input class="colorPickerOne" type="color" value="#${
+              <label class="floating">From</label>
+              
+              <i class="icons active cl" style="margin-right: 0.5rem">&#xe2b3;</i>
+      
+              
+              <input class="colorPickerOne" type="color" value="#${
                 effectList[e].colorOne
               }" />
-              <i class="icons" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe2a6;</i>
+              <i class="icons active brightnessA" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe2a6;</i>
               <input
                 class="brightStart"
                 type="range"
@@ -92,12 +99,12 @@ const renderEffectList = (effectList, filterString) => {
               />
             </div>
             <div class="settings-row-group floating mw205">
-              <label>To</label>
-              <i class="icons" style="margin-right: 0.5rem">&#xe2b3;</i>
+              <label class="floating">To</label>
+              <i class="icons active" style="margin-right: 0.5rem">&#xe2b3;</i>
               <input class="colorPickerTwo" type="color" value="#${
                 effectList[e].colorTwo
               }" />
-             <i class="icons" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe2a6;</i>
+             <i class="icons active" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe2a6;</i>
               <input
                 class="brightEnd"
                 type="range"
@@ -107,8 +114,8 @@ const renderEffectList = (effectList, filterString) => {
               />
             </div>
             <div class="settings-row-group floating mw205">
-              <label>Time in Min</label>
-              <i class="icons" style="margin-right: 0.5rem">&#xe325;</i>
+              <label class="floating">Time in Min</label>
+              <i class="icons active" style="margin-right: 0.5rem">&#xe325;</i>
               <input class="time" type="range" min="1" max="120" value="${
                 effectList[e].timeInMin
               }" />
@@ -117,25 +124,25 @@ const renderEffectList = (effectList, filterString) => {
           </div>
           <div class="settings-row">
             <div class="settings-row-group floating">
-              <label>FX:</label>
-              <i class="icons" style="margin-right: 0.5rem">&#xe409;</i>
+              <label class="floating">FX:</label>
+              <i class="icons active" style="margin-right: 0.5rem">&#xe409;</i>
               <input style="width: 60px;" class="fx" min="0" max="150" type="number" value="${
                 effectList[e].fx
               }" />
 
-              <i class="icons" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe325;</i>
+              <i class="icons active" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe325;</i>
               <input
                 class="fxSpeed"
                 type="range"
                 min="0"
-                max="100"
-                value="${effectList[e].brightnessStart}"
+                max="255"
+                value="${effectList[e].fxSpeed}"
               />
             </div>
           
             <div class="settings-row-group floating ml1" style="flex: 1">
-              <label>Extra:</label>
-              <i class="icons" style="margin-right: 0.5rem">&#xe23d;</i>
+              <label class="floating">Extra:</label>
+              <i class="icons active" style="margin-right: 0.5rem">&#xe23d;</i>
               <input class="extra " type="text"  value="${
                 effectList[e].extra
               }" style="flex: 1" />
@@ -183,6 +190,19 @@ $(() => {
         $('.settings', el).toggleClass('show');
         $('.chevron-arrow', el).toggleClass('down');
         $('.chevron-arrow', el).toggleClass('up');
+      });
+      $(el).on('click', '.settings-row-group.floating i', e => {
+        const effectName = $('.title-url', el)[0].innerText.toLowerCase();
+        const cl = $(e.currentTarget).hasClass('cl');
+        const brightnessA = $(e.currentTarget).hasClass('brightnessA');
+        $(e.currentTarget).toggleClass('active');
+        if (cl) {
+          effectsyz[effectName].useCL = $(e.currentTarget).hasClass('active');
+        }
+        if (brightnessA) {
+          effectsyz[effectName].useA = $(e.currentTarget).hasClass('active');
+        }
+        setURLonEffect(effectsyz[effectName], el);
       });
 
       $(el).on('click', '.title a.title-url', e => {
