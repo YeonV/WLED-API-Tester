@@ -44,7 +44,9 @@ const renderEffectList = (effectList, filterString) => {
         <div class="title">
           <a class="title-url" target="hiddenFrame" href="http://${
             globals.ip
-          }/${effectList[e].urlString}">${effectList[e].name}</a>
+          }/${effectList[e].urlString}">${
+        effectList[e].name
+      }<span class="countdown"></span></a>
           <!--div>
             <a class="url" class="url" target="hiddenFrame" href="http://${
               globals.ip
@@ -120,7 +122,17 @@ const renderEffectList = (effectList, filterString) => {
               <input style="width: 60px;" class="fx" min="0" max="150" type="number" value="${
                 effectList[e].fx
               }" />
+
+              <i class="icons" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe325;</i>
+              <input
+                class="fxSpeed"
+                type="range"
+                min="0"
+                max="100"
+                value="${effectList[e].brightnessStart}"
+              />
             </div>
+          
             <div class="settings-row-group floating ml1" style="flex: 1">
               <label>Extra:</label>
               <i class="icons" style="margin-right: 0.5rem">&#xe23d;</i>
@@ -162,7 +174,7 @@ $('#searchInput').each((i, ele) => {
     // });
   });
 });
-
+var isRunning = false;
 $(() => {
   const changeHandlers = () => {
     $('.effect').each((i, el) => {
@@ -171,6 +183,53 @@ $(() => {
         $('.settings', el).toggleClass('show');
         $('.chevron-arrow', el).toggleClass('down');
         $('.chevron-arrow', el).toggleClass('up');
+      });
+
+      $(el).on('click', '.title a.title-url', e => {
+        // const timer = $('input.time', el)[0].value * 60;
+        $(el).toggleClass('active');
+        const timer = $('input.time', el)[0].value * 60;
+        const display = $('span.countdown', el)[0];
+        console.log(timer, display, isRunning);
+
+        if (isRunning) {
+          $('.effect').each((i, element) => {
+            $(element).removeClass('active');
+          });
+          isRunning = false;
+          return;
+        } else {
+          isRunning = true;
+          var timer2 = new CountDownTimer(timer);
+
+          timer2
+            .onTick(format(display))
+            .onTick(checkExpired)
+            .start();
+
+          function restart() {
+            if (this.expired()) {
+              setTimeout(function() {
+                timer1.start();
+              }, 1000);
+            }
+          }
+          function checkExpired() {
+            if (this.expired()) {
+              $(el).removeClass('active');
+              isRunning = false;
+            } else {
+            }
+          }
+
+          function format(display) {
+            return function(minutes, seconds) {
+              minutes = minutes < 10 ? '0' + minutes : minutes;
+              seconds = seconds < 10 ? '0' + seconds : seconds;
+              display.textContent = minutes + ':' + seconds;
+            };
+          }
+        }
       });
 
       $(el).on('click', '.title .deleteButton', e => {
@@ -228,6 +287,13 @@ $(() => {
         $(ele).on('input', e => {
           const effectName = $('.title-url', el)[0].innerText.toLowerCase();
           effectsyz[effectName].fx = e.currentTarget.value;
+          setURLonEffect(effectsyz[effectName], el);
+        });
+      });
+      $('.fxSpeed', el).each((i, ele) => {
+        $(ele).on('input', e => {
+          const effectName = $('.title-url', el)[0].innerText.toLowerCase();
+          effectsyz[effectName].fxSpeed = e.currentTarget.value;
           setURLonEffect(effectsyz[effectName], el);
         });
       });

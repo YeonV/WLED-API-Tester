@@ -94,7 +94,8 @@ button:hover {
 
   transition: border-color 0.25s ease-out;
 }
-.effect:hover {
+.effect:hover,
+.effect.active {
   border-color: #fff;
   cursor: pointer;
   transition: border-color 0.15s ease-in;
@@ -159,7 +160,7 @@ button:hover {
   position: absolute;
   right: 0;
   top: 0;
-  bottom: 0;
+  bottom: 5px;
 }
 .settingsButton:hover .chevron-arrow {
   border-color: #fff;
@@ -259,7 +260,20 @@ a:any-link {
 .chevron-arrow.up {
   transform: rotate(225deg);
 }
-
+.countdown {
+  opacity: 0;
+  transition: opacity 0.25s ease-out;
+  position: absolute;
+  right: 50px;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  padding: 0.2rem 0.7rem;
+  top: 6px;
+}
+.effect.active .countdown {
+  opacity: 1;
+  transition: opacity 0.15s ease-in;
+}
 .floating-button {
   position: fixed;
   right: 10px;
