@@ -2,6 +2,8 @@ const template = {
   template: {
     name: "template",
     fx: 0,
+    fp: 0,
+    ix: 128,
     fxSpeed: 128,
     extra: "&NF=2",
     colorOne: "FF0000",
@@ -17,10 +19,16 @@ const template = {
     useA: true,
     useNL: true,
     useNT: true,
+    useFP: true,
+    useIX: true,
     useEXTRA: true
   }
 };
 const effectsyz = { ...template, ...effects };
+
+$(".dev").each((i, ele) => {
+  $(ele).hide();
+});
 
 const setURLonEffect = (effect, el) => {
   effectsyz[effect.name].urlString = `http://${globals.ip}/win${
@@ -47,6 +55,8 @@ const setURLonEffect = (effect, el) => {
     effectsyz[effect.name].useNT
       ? `&NT=${effectsyz[effect.name].brightnessEnd}`
       : ``
+  }${effectsyz[effect.name].useFP ? `&FP=${effectsyz[effect.name].fp}` : ``}${
+    effectsyz[effect.name].useIX ? `&IX=${effectsyz[effect.name].ix}` : ``
   }${effectsyz[effect.name].useEXTRA ? `${effectsyz[effect.name].extra}` : ``}`;
 
   $(".url", el)[0].innerText = effectsyz[effect.name].urlString;
@@ -150,28 +160,86 @@ const renderEffectList = (effectList, filterString) => {
             
           </div>
           <div class="settings-row">
-            <div class="settings-row-group floating">
+            <div class="settings-row-group floating wrap">
               <label class="floating">FX:</label>
-              <i class="icons ${
-                effectList[e].useFX ? "active" : ""
-              } fx" style="margin-right: 0.5rem">&#xe409;</i>
-              <input style="width: 60px;" class="fx" min="0" max="150" type="number" value="${
-                effectList[e].fx
-              }" />
-
-              <i class="icons ${
-                effectList[e].useSX ? "active" : ""
-              } sx" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe325;</i>
-              <input
-                class="fxSpeed"
-                type="range"
-                min="0"
-                max="255"
-                value="${effectList[e].fxSpeed}"
-              />
+              <div>
+                <i class="icons ${
+                  effectList[e].useFX ? "active" : ""
+                } fx" style="margin-right: 0.5rem">&#xe410;</i>
+                
+                ${
+                  globals.wledEffects && globals.wledEffects.length > 1
+                    ? `<select id='fxList' class='fx' value='${
+                        effectList[e].fx
+                      }'>
+                    ${globals.wledEffects.map(
+                      (e, i) => `
+                    <option value='${i}'>${e}</option>
+                    `
+                    )}
+                      
+                    </select>`
+                    : `<input
+                      style='width: 60px;'
+                      class='fx'
+                      min='0'
+                      max='150'
+                      type='number'
+                      value='${effectList[e].fx}'
+                    />
+                  `
+                }
+              </div>
+              <div>
+                <i class="icons ${
+                  effectList[e].useSX ? "active" : ""
+                } sx ml1" style="margin-right: 0.5rem;">&#xe325;</i>
+                <input
+                  class="fxSpeed"
+                  type="range"
+                  min="0"
+                  max="255"
+                  value="${effectList[e].fxSpeed}"
+                />
+              </div>
+              <div>
+                <i class="icons ${
+                  effectList[e].useIX ? "active" : ""
+                } ix ml1" style="margin-right: 0.5rem;">&#xe409;</i>
+                <input
+                  class="ix"
+                  type="range"
+                  min="0"
+                  max="255"
+                  value="${effectList[e].ix}"
+                />
+              </div>
             </div>
-          
-            <div class="settings-row-group floating ml1" style="flex: 1">
+            <div class="settings-row-group floating ml1" style="flex: 1;">
+            <label class="floating">PALETTE:</label>
+              <i class="icons ${
+                effectList[e].useFP ? "active" : ""
+              } fp" style="margin-right: 0.5rem">&#xe410;</i>
+              ${
+                globals.wledPalettes && globals.wledPalettes.length > 1
+                  ? `<select id='fpList' style="flex:1; margin-right: 10px;" class='fp' value='${
+                      effectList[e].fp
+                    }'>
+                  ${globals.wledPalettes.map(
+                    (e, i) => `
+                  <option value='${i}'>${e}</option>
+                  `
+                  )}
+                    
+                  </select>`
+                  : `<input style="width: 60px;" class="fp" min="0" max="50" type="number" value="${effectList[e].fp}" />
+                `
+              }
+              
+            </div>
+          </div>
+          <div class="settings-row">
+          <div class="settings-row-group floating" style="flex: 1">
               <label class="floating">Extra:</label>
               <i class="icons ${
                 effectList[e].useEXTRA ? "active" : ""
@@ -179,8 +247,7 @@ const renderEffectList = (effectList, filterString) => {
               <input class="extra " type="text"  value="${
                 effectList[e].extra
               }" style="flex: 1" />
-            </div>           
-            
+            </div>   
           </div>
         </div>
       </div>
@@ -188,8 +255,6 @@ const renderEffectList = (effectList, filterString) => {
     )
     .join("");
 };
-
-renderEffectList(effectsyz);
 
 /* START Event-Handlers*/
 
@@ -211,7 +276,6 @@ $("#inputIP").each((i, ele) => {
     });
   });
 });
-
 $(() => {
   getCurrentState();
   $("#inputIP")[0].value = globals.ip;
@@ -235,6 +299,8 @@ $(() => {
         const sx = $(e.currentTarget).hasClass("sx");
         const fx = $(e.currentTarget).hasClass("fx");
         const extra = $(e.currentTarget).hasClass("extra");
+        const ix = $(e.currentTarget).hasClass("ix");
+        const fp = $(e.currentTarget).hasClass("fp");
         $(e.currentTarget).toggleClass("active");
         if (cl) {
           effectsyz[effectName].useCL = $(e.currentTarget).hasClass("active");
@@ -259,6 +325,12 @@ $(() => {
         }
         if (fx) {
           effectsyz[effectName].useFX = $(e.currentTarget).hasClass("active");
+        }
+        if (fp) {
+          effectsyz[effectName].useFP = $(e.currentTarget).hasClass("active");
+        }
+        if (ix) {
+          effectsyz[effectName].useIX = $(e.currentTarget).hasClass("active");
         }
         if (extra) {
           effectsyz[effectName].useEXTRA = $(e.currentTarget).hasClass(
@@ -371,6 +443,20 @@ $(() => {
           setURLonEffect(effectsyz[effectName], el);
         });
       });
+      $(".ix", el).each((i, ele) => {
+        $(ele).on("input", e => {
+          const effectName = $(".title-url", el)[0].innerText.toLowerCase();
+          effectsyz[effectName].ix = e.currentTarget.value;
+          setURLonEffect(effectsyz[effectName], el);
+        });
+      });
+      $(".fp", el).each((i, ele) => {
+        $(ele).on("input", e => {
+          const effectName = $(".title-url", el)[0].innerText.toLowerCase();
+          effectsyz[effectName].fp = e.currentTarget.value;
+          setURLonEffect(effectsyz[effectName], el);
+        });
+      });
       $(".fxSpeed", el).each((i, ele) => {
         $(ele).on("input", e => {
           const effectName = $(".title-url", el)[0].innerText.toLowerCase();
@@ -391,7 +477,20 @@ $(() => {
       $("#inputIP").removeClass("and-dev");
     });
   };
-  changeHandlers();
+  if (
+    globals.wledEffects &&
+    globals.wledEffects.length > 1 &&
+    globals.wledPalettes &&
+    globals.wledPalettes.length > 1
+  ) {
+    renderEffectList(effectsyz);
+    changeHandlers();
+  } else {
+    setTimeout(() => {
+      renderEffectList(effectsyz);
+      changeHandlers();
+    }, 1000);
+  }
 
   $(".save").on("click", e => {
     const userEffectName = prompt("Effect Name", "Sunrise");
@@ -416,6 +515,8 @@ $(() => {
           useC2: effectsyz[tempOldName].useC2,
           useNT: effectsyz[tempOldName].useNT,
           useFX: effectsyz[tempOldName].useFX,
+          useFP: effectsyz[tempOldName].useFP,
+          useIX: effectsyz[tempOldName].useIX,
           useSX: effectsyz[tempOldName].useSX,
           useEXTRA: effectsyz[tempOldName].useEXTRA
         };
@@ -450,6 +551,10 @@ $(() => {
       $(ele).toggle();
     });
   });
+  $("#dev-button6").on("click", () => {
+    renderEffectList(effectsyz);
+    changeHandlers();
+  });
   $("#export").on("click", e => {
     // console.log('Exporting:', effectsyz);
     const filtered = Object.filter(
@@ -458,8 +563,11 @@ $(() => {
     );
     download(
       "config.js",
-      `const globals = {ip:'${$("#inputIP")[0].value}'}
-const effects = ${JSON.stringify(filtered, "\t", 2)}`
+      `const effects = ${JSON.stringify(filtered, "\t", 2)};
+const globals = {
+  "ip": "${$("#inputIP")[0].value}",
+  "wledPalettes": ${JSON.stringify(globals.wledPalettes, "\t", 4)},
+  "wledEffects": ${JSON.stringify(globals.wledEffects, "\t", 4)}}`
     );
   });
 });

@@ -29,6 +29,11 @@ a:any-link {
 h1 a:any-link {
   text-decoration: underline;
 }
+select {
+  background-color: #333;
+  color: #fff;
+  height: 30px;
+}
 .container {
   display: flex;
   flex-direction: column;
@@ -335,6 +340,20 @@ a:any-link {
   .settings-row-group.floating {
     margin-bottom: 1rem;
   }
+  .settings-row-group.floating.wrap {
+    flex-wrap: wrap;
+  }
+  .settings-row-group.floating.wrap > div {
+    flex-basis: 100%;
+    display: flex;
+    margin: 10px 0;
+    align-items: center;
+    justify-content: center;
+  }
+  .effect.show .settings-row-group.floating {
+    border-radius: 15px;
+  }
+  select,
   input[type="range"],
   input[type="text"],
   input[type="number"] {

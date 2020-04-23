@@ -12,6 +12,21 @@ const getCurrentState = () => {
   });
 };
 
+const getEffectList = () => {
+  $.getJSON(`http://${globals.ip}/json/effect`, function(data) {
+    globals.wledEffects = data;
+    console.log("Got Effects:", globals.wledEffects);
+  });
+};
+const getPaletteList = () => {
+  $.getJSON(`http://${globals.ip}/json/palette`, function(data) {
+    globals.wledPalettes = data;
+    console.log("Got Palettes:", globals.wledPalettes);
+  });
+};
+getEffectList();
+getPaletteList();
+
 const setLastCheckedState = () => {
   console.log("Setting Last Current State");
   setState(currentState);
@@ -37,6 +52,10 @@ const setState = state => {
 
 $("#dev-button2 , #json-get-current").on("click", () => {
   getCurrentState();
+});
+$("#dev-button5").on("click", () => {
+  getEffectList();
+  getPaletteList();
 });
 
 $("#dev-button3").on("click", () => {
