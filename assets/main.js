@@ -11,7 +11,7 @@ const template = {
     timeInMin: 10,
     brightnessStart: 5,
     brightnessEnd: 255,
-    urlString: `http://${globals.ip}/win&FX=0&SX=128&CL=h00FF0000&C2=h00FFB14A&A=5&NL=10&NT=255&NF=2`,
+    urlString: `http://${globals.ip}/win&FX=0&SX=128&CL=h00FF0000&C2=h00FFB14A&A=5&NL=10&NT=255&FP=0&IX=128&NF=2`,
     useFX: true,
     useSX: true,
     useCL: true,
