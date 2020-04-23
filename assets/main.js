@@ -1,7 +1,3 @@
-const globals = {
-  ip: "192.168.1.186"
-};
-
 const template = {
   template: {
     name: "template",
@@ -218,7 +214,7 @@ $("#inputIP").each((i, ele) => {
 
 $(() => {
   getCurrentState();
-
+  $("#inputIP")[0].value = globals.ip;
   const changeHandlers = () => {
     let timer2 = null;
     let isRunning = false;
@@ -449,7 +445,11 @@ $(() => {
     });
     $("#inputIP").toggleClass("and-dev");
   });
-
+  $("#dev2-toggler").on("click", () => {
+    $(".dev2").each((i, ele) => {
+      $(ele).toggle();
+    });
+  });
   $("#export").on("click", e => {
     // console.log('Exporting:', effectsyz);
     const filtered = Object.filter(
@@ -457,8 +457,9 @@ $(() => {
       effect => effect.name !== "template"
     );
     download(
-      "effects.js",
-      `const effects = ${JSON.stringify(filtered, "\t", 2)}`
+      "config.js",
+      `const globals = {ip:'${$("#inputIP")[0].value}'}
+const effects = ${JSON.stringify(filtered, "\t", 2)}`
     );
   });
 });

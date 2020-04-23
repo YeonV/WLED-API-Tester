@@ -10,8 +10,15 @@
   </head>
   <body>
     <h1>
-      <span id="dev-button2">B</span>lade's <span id="dev-button3">W</span>LED
-      API Tester v0<span id="dev-toggler">.</span>3
+      <span id="dev-button2">B</span><span id="dev-button3">l</span>ade<span
+        id="dev2-toggler"
+        >'</span
+      >s
+      <a href="https://github.com/Aircoookie/WLED">WLED</a>
+      <a href="https://github.com/Aircoookie/WLED/wiki/HTTP-request-API"
+        >HTTP-API</a
+      >
+      Tester v0<span id="dev-toggler">.</span>3
     </h1>
     <div id="export" class="dev floating-button">
       <i class="icons">&#xe116;</i><span style="font-size: 10px;">export</span>
@@ -21,7 +28,7 @@
         <input
           type="text"
           placeholder="Your WLED-IP or mDNS-Name"
-          value="192.168.1.186"
+          value=""
           class="globalInput"
           id="inputIP"
         /><button class="save dev">
@@ -42,10 +49,20 @@
       <div id="effectlist">
         No configfile found. Please check 'effects.js' in your root folder...
       </div>
+      <div class="dev2">
+        <h3>Current State</h3>
+        <textarea id="currentState"></textarea>
+        <button style="width: 100%;" id="json-get-current">
+          GET current State to Textarea
+        </button>
+        <button style="width: 100%;" id="dev-button4" class="button">
+          SET new State from Textarea
+        </button>
+      </div>
     </div>
     <iframe id="hiddenFrame" name="hiddenFrame"></iframe>
     <script src="assets/jquery.js"></script>
-    <script src="effects.js"></script>
+    <script src="config.js"></script>
     <script src="assets/utils.js"></script>
     <script src="assets/main.js"></script>
     <script src="assets/jsonapi.js"></script>

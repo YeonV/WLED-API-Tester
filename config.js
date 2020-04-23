@@ -1,3 +1,4 @@
+const globals = { ip: "192.168.1.186" };
 const effects = {
   sunrise: {
     name: "sunrise",
@@ -9,7 +10,7 @@ const effects = {
     timeInMin: 10,
     brightnessStart: 5,
     brightnessEnd: 255,
-    urlString: `http://192.168.1.186/win&FX=0&CL=h00FF0000&C2=h00FFB14A&A=5&NL=10&NT=255&NF=2`,
+    urlString: `http://${globals.ip}/win&FX=0&CL=h00FF0000&C2=h00FFB14A&A=5&NL=10&NT=255&NF=2`,
     useFX: true,
     useSX: false,
     useCL: true,
