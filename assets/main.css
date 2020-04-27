@@ -179,6 +179,31 @@ button:hover {
   border: 2px solid #800000;
   transition: all 0.15s ease-in;
 }
+.shareButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  position: absolute;
+  left: 60px;
+  top: 4px;
+  bottom: 0;
+  background-color: #800000;
+  color: white;
+  border: 2px solid white;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  box-shadow: 1px 1px rgba(0, 0, 0, 0.9);
+  cursor: pointer;
+  transition: all 0.25s ease-out;
+}
+.shareButton:hover {
+  background-color: white;
+  color: #800000;
+  border: 2px solid #800000;
+  transition: all 0.15s ease-in;
+}
 
 .settingsButton {
   display: flex;
@@ -247,9 +272,9 @@ input.time {
 .settings.show {
   display: block;
 }
-
-input[type="text"],
-input[type="number"] {
+input[type='password'],
+input[type='text'],
+input[type='number'] {
   background: #333;
   color: #fff;
   border: 1px solid #333;
@@ -259,14 +284,14 @@ input[type="number"] {
   padding-right: 10px;
   transition: border-color 0.25s ease-out;
 }
-input[type="text"] {
+input[type='text'] {
   border-radius: 20px;
 }
-input[type="number"] {
+input[type='number'] {
   text-align: center;
 }
-input[type="text"]:focus,
-input[type="number"]:focus {
+input[type='text']:focus,
+input[type='number']:focus {
   border-color: #fff;
   transition: border-color 0.15s ease-in;
 }
@@ -342,8 +367,77 @@ a:any-link {
 }
 .dev2 textarea {
   width: 100%;
-  height: 750px;
+  height: 450px;
 }
+.dev3 {
+  display: none;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+.dev3 textarea {
+  width: 100%;
+  height: 450px;
+}
+#pixabayFrame {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: none;
+}
+#pixabayWrapper {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.85);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 480px;
+  margin: 0 auto;
+}
+.pixa-header {
+}
+.pixa-header input {
+  width: 470px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  line-height: 2rem;
+  text-align: center;
+}
+
+.pixa-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+.pixa-footer {
+  align-self: center;
+}
+.pixa-footer img {
+  max-width: 400px;
+  margin: 0 auto;
+}
+.pixabayPic {
+  width: 150px;
+  height: 100px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border: 5px solid #fff;
+  border-radius: 10px;
+  margin: 5px;
+  cursor: pointer;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+}
+.pixabayPic:hover {
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.8);
+}
+
 @media (max-width: 799px) {
   .container {
     width: 400px;
@@ -368,9 +462,9 @@ a:any-link {
     border-radius: 15px;
   }
   select,
-  input[type="range"],
-  input[type="text"],
-  input[type="number"] {
+  input[type='range'],
+  input[type='text'],
+  input[type='number'] {
     flex: 1;
   }
 
