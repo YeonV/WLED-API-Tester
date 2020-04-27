@@ -1,4 +1,7 @@
 let currentPosts = {};
+let newPostId = null;
+let newImgId = null;
+
 const getPosts = () => {
   fetch('http://wled.ddns.net:82/WLED-CMS/wp-json/wp/v2/posts')
     .then(function(response) {
@@ -59,34 +62,63 @@ $('#cms-get').on('click', () => {
   getPost();
 });
 let token;
+
+const createPost = (title, content) => {
+  console.log('CREATING NEW POST:', title);
+  fetch('http://wled.ddns.net:82/WLED-CMS/wp-json/wp/v2/posts', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      accept: 'application/json',
+      Authorization: 'Bearer ' + token
+    },
+    body: JSON.stringify({
+      title: title,
+      content: content,
+      status: 'publish'
+    })
+  })
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(post) {
+      console.log(post);
+      newImgId = post.id;
+    })
+    .catch(error => {
+      console.log('ERROR', error);
+    });
+};
+const updatePostWithImg = (postid, imgid) => {
+  fetch(`http://wled.ddns.net:82/WLED-CMS/wp-json/wp/v2/posts/${postid}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      accept: 'application/json',
+      Authorization: 'Bearer ' + token
+    },
+    body: JSON.stringify({
+      featured_media: imgid
+    })
+  })
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(post) {
+      console.log(post);
+    });
+};
+
 $('#cms-post').on('click', () => {
   if (
     document.cookie.split(';').some(item => item.trim().startsWith('token='))
   ) {
     token = getCookieValue('token');
-
-    fetch('http://wled.ddns.net:82/WLED-CMS/wp-json/wp/v2/posts', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        accept: 'application/json',
-        Authorization: 'Bearer ' + token
-      },
-      body: JSON.stringify({
-        title: $('#wpTitle')[0].value,
-        content: $('#wpContent')[0].value,
-        status: 'publish'
-      })
-    })
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(post) {
-        console.log(post);
-      });
   } else {
     getToken();
   }
+  createPost($('#wpTitle')[0].value, $('#wpContent')[0].value);
+
   console.log('...');
 });
 $('#cms-post2').on('click', () => {
@@ -94,27 +126,10 @@ $('#cms-post2').on('click', () => {
     document.cookie.split(';').some(item => item.trim().startsWith('token='))
   ) {
     token = getCookieValue('token');
-
-    fetch('http://wled.ddns.net:82/WLED-CMS/wp-json/wp/v2/posts/125', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        accept: 'application/json',
-        Authorization: 'Bearer ' + token
-      },
-      body: JSON.stringify({
-        featured_media: 126
-      })
-    })
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(post) {
-        console.log(post);
-      });
   } else {
     getToken();
   }
+  updatePostWithImg(newPostId, newImgId);
   console.log('...');
 });
 $('#dev-button7').on('click', () => {
@@ -144,7 +159,35 @@ const saveBase64AsFile = (base64, fileName) => {
   link.setAttribute('download', fileName);
   link.click();
 };
-const uploadImgToWP = img => {
+const uploadImgToWP = () => {
+  // console.log("FILENAME:", $(wpFeatImg)[0], $(wpFeatImg)[0].value);
+
+  const formData = new FormData();
+  const fileField = document.querySelector('input[type="file"]');
+  formData.append('title', fileField.files[0].name);
+  formData.append('content', fileField.files[0].name);
+  formData.append('media[0]', fileField.files[0]);
+
+  fetch('http://wled.ddns.net:82/WLED-CMS/wp-json/wp/v2/media', {
+    method: 'POST',
+    headers: {
+      'Content-Disposition': `form-data; attachment; filename="${fileField.files[0].name}"`,
+      Authorization: 'Bearer ' + token
+    },
+    body: formData
+  })
+    .then(response => response.json())
+    .then(result => {
+      if (result.data.status !== 200) {
+        console.error('ERROR', result);
+      } else {
+        console.log('Success:', result);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  return;
   if (
     document.cookie.split(';').some(item => item.trim().startsWith('token='))
   ) {
@@ -154,7 +197,7 @@ const uploadImgToWP = img => {
       method: 'POST',
       headers: {
         'Content-Type': 'image/jpeg',
-        'Content-Disposition': `attachment; filename=${wpFeatImg}`,
+        'Content-Disposition': `attachment; filename=${$(wpFeatImg)[0].value}`,
         accept: 'application/json',
         Authorization: 'Bearer ' + token
       },
@@ -172,6 +215,8 @@ const uploadImgToWP = img => {
 };
 
 $('#pixabayTrigger').on('click', () => {
+  uploadImgToWP();
+  return;
   $('#pixabayFrame').fadeIn();
   $('#pixabayWrapper').fadeIn();
   $('#pixabayFrame:not(#pixabayWrapper)').on('click', () => {
@@ -206,8 +251,8 @@ $('#pixabayTrigger').on('click', () => {
       $('#pixabayWrapper .pixa-grid').append(
         pics.hits.map(
           pic => `
-      <div class="pixabayPic" data-url="${pic.largeImageURL}" style="background-image: url('${pic.previewURL}');"></div>
-      `
+        <div class="pixabayPic" data-url="${pic.largeImageURL}" style="background-image: url('${pic.previewURL}');"></div>
+        `
         )
       );
       $('#pixabayWrapper .pixa-grid .pixabayPic').each((i, el) => {
@@ -215,7 +260,7 @@ $('#pixabayTrigger').on('click', () => {
           toDataURL($(el).data('url')).then(dataUrl => {
             console.log('RESULT:', dataUrl);
             //saveBase64AsFile(dataUrl, 'effect_background');
-            uploadImgToWP(dataUrl);
+            uploadImgToWP();
           });
         });
       });

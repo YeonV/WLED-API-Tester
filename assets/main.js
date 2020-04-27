@@ -89,7 +89,7 @@ const renderEffectList = (effectList, filterString) => {
               ? ''
               : effectList[e].name === 'sunrise'
               ? ''
-              : '<div  class="deleteButton dev"><i class="icons">&#xe037;</i></div><div  class="shareButton dev"><i class="icons">&#xe037;</i></div>'
+              : '<div  class="deleteButton dev"><i class="icons">&#xe037;</i></div><div  class="shareButton dev"><i class="icons">&#xe116;</i></div>'
           }
           
           <div  class="settingsButton">
@@ -395,6 +395,20 @@ $(() => {
           // console.log("deleting:", effectName);
           renderEffectList(effectsyz);
         }
+      });
+      $(el).on('click', '.title .shareButton', e => {
+        // console.log("share", e);
+        const effectName = $('.title-url', el)[0].innerText.toLowerCase();
+
+        window.open(
+          `http://wled.ddns.net:82/WLED-CMS/wp-admin/post-new.php?post_title=${encodeURIComponent(
+            effectName
+          )}&excerpt=${encodeURIComponent(
+            effectsyz[effectName].urlString.split('win')[1]
+          )}`,
+          '_blank'
+        );
+        renderEffectList(effectsyz);
       });
 
       $(el).on('click', '.title .deleteButton', e => {

@@ -43,6 +43,7 @@ select {
   width: 400px;
   display: flex;
   margin: 0 auto;
+  position: relative;
 }
 .globals-wrapper li {
   position: absolute;
