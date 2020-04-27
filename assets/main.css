@@ -44,6 +44,20 @@ select {
   display: flex;
   margin: 0 auto;
 }
+.globals-wrapper li {
+  position: absolute;
+  left: 0.7rem;
+  top: -1rem;
+  font-size: 4.5rem;
+  color: #333;
+  transition: color 0.25s ease-in-out;
+}
+.globals-wrapper li.online {
+  color: #00ff00;
+}
+.globals-wrapper li.offline {
+  color: #ff0000;
+}
 .globals-wrapper .globalInput {
   flex: 1;
   line-height: 1.5rem;

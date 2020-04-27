@@ -1,15 +1,22 @@
 let currentState = {};
 
 const getCurrentState = () => {
-  $.getJSON(`http://${globals.ip}/json/state`, function(data) {
-    currentState = data;
-    console.log("Got State:", currentState);
-    $(".dev2 textarea#currentState")[0].value = JSON.stringify(
-      currentState,
-      null,
-      4
-    );
-  });
+  $.getJSON(
+    `http://${globals.ip}/json/state`,
+    function(data) {
+      currentState = data;
+      console.log("Got State:", currentState);
+      $(".globals-wrapper li").addClass("online");
+      $(".dev2 textarea#currentState")[0].value = JSON.stringify(
+        currentState,
+        null,
+        4
+      );
+    },
+    function(data, status, xhr) {
+      console.log("RESPONSE", data, status, xhr);
+    }
+  );
 };
 
 const getEffectList = () => {
