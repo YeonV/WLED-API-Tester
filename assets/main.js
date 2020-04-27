@@ -1,13 +1,13 @@
 const template = {
   template: {
-    name: "template",
+    name: 'template',
     fx: 0,
     fp: 0,
     ix: 128,
     fxSpeed: 128,
-    extra: "&NF=2",
-    colorOne: "FF0000",
-    colorTwo: "FFB14A",
+    extra: '&NF=2',
+    colorOne: 'FF0000',
+    colorTwo: 'FFB14A',
     timeInMin: 10,
     brightnessStart: 5,
     brightnessEnd: 255,
@@ -24,9 +24,9 @@ const template = {
     useEXTRA: true
   }
 };
-const effectsyz = { ...template, ...effects };
+const effectsyz = {...template, ...effects};
 
-$(".dev").each((i, ele) => {
+$('.dev').each((i, ele) => {
   $(ele).hide();
 });
 
@@ -59,24 +59,24 @@ const setURLonEffect = (effect, el) => {
     effectsyz[effect.name].useIX ? `&IX=${effectsyz[effect.name].ix}` : ``
   }${effectsyz[effect.name].useEXTRA ? `${effectsyz[effect.name].extra}` : ``}`;
 
-  $(".url", el)[0].innerText = effectsyz[effect.name].urlString;
-  $(".url", el)[0].href = effectsyz[effect.name].urlString;
-  $(".title-url", el)[0].href = effectsyz[effect.name].urlString;
-  $(".settings-row a.url", el)[0].innerText = effectsyz[effect.name].urlString;
-  $(".settings-row a.url", el)[0].href = effectsyz[effect.name].urlString;
+  $('.url', el)[0].innerText = effectsyz[effect.name].urlString;
+  $('.url', el)[0].href = effectsyz[effect.name].urlString;
+  $('.title-url', el)[0].href = effectsyz[effect.name].urlString;
+  $('.settings-row a.url', el)[0].innerText = effectsyz[effect.name].urlString;
+  $('.settings-row a.url', el)[0].href = effectsyz[effect.name].urlString;
 };
 
 const renderEffectList = (effectList, filterString) => {
-  $("#effectlist")[0].innerHTML = (filterString
+  $('#effectlist')[0].innerHTML = (filterString
     ? Object.keys(effectList)
-        .filter(p => p.toLowerCase() !== "template")
+        .filter(p => p.toLowerCase() !== 'template')
         .filter(p => p.toLowerCase().includes(filterString.toLowerCase()))
     : Object.keys(effectList)
   )
     .map(
       (e, i) => /*html*/ `   
           <div class="effect ${
-            effectList[e].name === "template" ? "template dev" : ""
+            effectList[e].name === 'template' ? 'template dev' : ''
           }">
         <div class="title">
           <a class="title-url" target="hiddenFrame" href="http://${
@@ -85,11 +85,11 @@ const renderEffectList = (effectList, filterString) => {
         effectList[e].name
       }<span class="countdown"></span></a>      
           ${
-            effectList[e].name === "template"
-              ? ""
-              : effectList[e].name === "sunrise"
-              ? ""
-              : '<div  class="deleteButton dev"><i class="icons">&#xe037;</i></div>'
+            effectList[e].name === 'template'
+              ? ''
+              : effectList[e].name === 'sunrise'
+              ? ''
+              : '<div  class="deleteButton dev"><i class="icons">&#xe037;</i></div><div  class="shareButton dev"><i class="icons">&#xe037;</i></div>'
           }
           
           <div  class="settingsButton">
@@ -111,7 +111,7 @@ const renderEffectList = (effectList, filterString) => {
               <label class="floating">From</label>
               
               <i class="icons ${
-                effectList[e].useCL ? "active" : ""
+                effectList[e].useCL ? 'active' : ''
               } cl" style="margin-right: 0.5rem">&#xe2b3;</i>
       
               
@@ -119,7 +119,7 @@ const renderEffectList = (effectList, filterString) => {
                 effectList[e].colorOne
               }" />
               <i class="icons ${
-                effectList[e].useA ? "active" : ""
+                effectList[e].useA ? 'active' : ''
               } brightnessA" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe2a6;</i>
               <input
                 class="brightStart"
@@ -132,13 +132,13 @@ const renderEffectList = (effectList, filterString) => {
             <div class="settings-row-group floating mw205">
               <label class="floating">To</label>
               <i class="icons ${
-                effectList[e].useC2 ? "active" : ""
+                effectList[e].useC2 ? 'active' : ''
               } c2" style="margin-right: 0.5rem">&#xe2b3;</i>
               <input class="colorPickerTwo" type="color" value="#${
                 effectList[e].colorTwo
               }" />
              <i class="icons ${
-               effectList[e].useNT ? "active" : ""
+               effectList[e].useNT ? 'active' : ''
              } brightnessB" style="margin-left: 1rem;margin-right: 0.5rem;">&#xe2a6;</i>
               <input
                 class="brightEnd"
@@ -151,7 +151,7 @@ const renderEffectList = (effectList, filterString) => {
             <div class="settings-row-group floating mw205">
               <label class="floating">Time in Min</label>
               <i class="icons ${
-                effectList[e].useNL ? "active" : ""
+                effectList[e].useNL ? 'active' : ''
               } nl" style="margin-right: 0.5rem">&#xe325;</i>
               <input class="time" type="range" min="1" max="120" value="${
                 effectList[e].timeInMin
@@ -164,7 +164,7 @@ const renderEffectList = (effectList, filterString) => {
               <label class="floating">FX:</label>
               <div>
                 <i class="icons ${
-                  effectList[e].useFX ? "active" : ""
+                  effectList[e].useFX ? 'active' : ''
                 } fx" style="margin-right: 0.5rem">&#xe410;</i>
                 
                 ${
@@ -192,7 +192,7 @@ const renderEffectList = (effectList, filterString) => {
               </div>
               <div>
                 <i class="icons ${
-                  effectList[e].useSX ? "active" : ""
+                  effectList[e].useSX ? 'active' : ''
                 } sx ml1" style="margin-right: 0.5rem;">&#xe325;</i>
                 <input
                   class="fxSpeed"
@@ -204,7 +204,7 @@ const renderEffectList = (effectList, filterString) => {
               </div>
               <div>
                 <i class="icons ${
-                  effectList[e].useIX ? "active" : ""
+                  effectList[e].useIX ? 'active' : ''
                 } ix ml1" style="margin-right: 0.5rem;">&#xe409;</i>
                 <input
                   class="ix"
@@ -218,7 +218,7 @@ const renderEffectList = (effectList, filterString) => {
             <div class="settings-row-group floating ml1" style="flex: 1;">
             <label class="floating">PALETTE:</label>
               <i class="icons ${
-                effectList[e].useFP ? "active" : ""
+                effectList[e].useFP ? 'active' : ''
               } fp" style="margin-right: 0.5rem">&#xe410;</i>
               ${
                 globals.wledPalettes && globals.wledPalettes.length > 1
@@ -242,7 +242,7 @@ const renderEffectList = (effectList, filterString) => {
           <div class="settings-row-group floating" style="flex: 1">
               <label class="floating">Extra:</label>
               <i class="icons ${
-                effectList[e].useEXTRA ? "active" : ""
+                effectList[e].useEXTRA ? 'active' : ''
               } extra" style="margin-right: 0.5rem">&#xe23d;</i>
               <input class="extra " type="text"  value="${
                 effectList[e].extra
@@ -253,12 +253,12 @@ const renderEffectList = (effectList, filterString) => {
       </div>
         `
     )
-    .join("");
+    .join('');
 };
 
 /* START Event-Handlers*/
 
-$("#inputIP").each((i, ele) => {
+$('#inputIP').each((i, ele) => {
   /* prepared with each if multiple required. (change id to class then) */
   $(ele).focusout(() => {
     getCurrentState();
@@ -268,100 +268,100 @@ $("#inputIP").each((i, ele) => {
       $(ele).blur();
     }
   });
-  $(ele).on("input", e => {
+  $(ele).on('input', e => {
     globals.ip = e.currentTarget.value;
-    $("#effectlist .effect").each((i, element) => {
-      const effectName = $(".title-url", element)[0].innerText.toLowerCase();
+    $('#effectlist .effect').each((i, element) => {
+      const effectName = $('.title-url', element)[0].innerText.toLowerCase();
       setURLonEffect(effectsyz[effectName], element);
     });
   });
 });
 $(() => {
   getCurrentState();
-  $("#inputIP")[0].value = globals.ip;
+  $('#inputIP')[0].value = globals.ip;
   const changeHandlers = () => {
     let timer2 = null;
     let isRunning = false;
-    $(".effect").each((i, el) => {
-      $(el).on("click", ".title .settingsButton", e => {
-        $(el).toggleClass("show");
-        $(".settings", el).toggleClass("show");
-        $(".chevron-arrow", el).toggleClass("down");
-        $(".chevron-arrow", el).toggleClass("up");
+    $('.effect').each((i, el) => {
+      $(el).on('click', '.title .settingsButton', e => {
+        $(el).toggleClass('show');
+        $('.settings', el).toggleClass('show');
+        $('.chevron-arrow', el).toggleClass('down');
+        $('.chevron-arrow', el).toggleClass('up');
       });
-      $(el).on("click", ".settings-row-group.floating i", e => {
-        const effectName = $(".title-url", el)[0].innerText.toLowerCase();
-        const cl = $(e.currentTarget).hasClass("cl");
-        const brightnessA = $(e.currentTarget).hasClass("brightnessA");
-        const c2 = $(e.currentTarget).hasClass("c2");
-        const brightnessB = $(e.currentTarget).hasClass("brightnessB");
-        const nl = $(e.currentTarget).hasClass("nl");
-        const sx = $(e.currentTarget).hasClass("sx");
-        const fx = $(e.currentTarget).hasClass("fx");
-        const extra = $(e.currentTarget).hasClass("extra");
-        const ix = $(e.currentTarget).hasClass("ix");
-        const fp = $(e.currentTarget).hasClass("fp");
-        $(e.currentTarget).toggleClass("active");
+      $(el).on('click', '.settings-row-group.floating i', e => {
+        const effectName = $('.title-url', el)[0].innerText.toLowerCase();
+        const cl = $(e.currentTarget).hasClass('cl');
+        const brightnessA = $(e.currentTarget).hasClass('brightnessA');
+        const c2 = $(e.currentTarget).hasClass('c2');
+        const brightnessB = $(e.currentTarget).hasClass('brightnessB');
+        const nl = $(e.currentTarget).hasClass('nl');
+        const sx = $(e.currentTarget).hasClass('sx');
+        const fx = $(e.currentTarget).hasClass('fx');
+        const extra = $(e.currentTarget).hasClass('extra');
+        const ix = $(e.currentTarget).hasClass('ix');
+        const fp = $(e.currentTarget).hasClass('fp');
+        $(e.currentTarget).toggleClass('active');
         if (cl) {
-          effectsyz[effectName].useCL = $(e.currentTarget).hasClass("active");
+          effectsyz[effectName].useCL = $(e.currentTarget).hasClass('active');
         }
         if (brightnessA) {
-          effectsyz[effectName].useA = $(e.currentTarget).hasClass("active");
+          effectsyz[effectName].useA = $(e.currentTarget).hasClass('active');
         }
         if (c2) {
-          effectsyz[effectName].useC2 = $(e.currentTarget).hasClass("active");
+          effectsyz[effectName].useC2 = $(e.currentTarget).hasClass('active');
         }
         if (brightnessB) {
-          effectsyz[effectName].useNT = $(e.currentTarget).hasClass("active");
+          effectsyz[effectName].useNT = $(e.currentTarget).hasClass('active');
         }
         if (nl) {
-          effectsyz[effectName].useNL = $(e.currentTarget).hasClass("active");
+          effectsyz[effectName].useNL = $(e.currentTarget).hasClass('active');
         }
         if (nl) {
-          effectsyz[effectName].useNL = $(e.currentTarget).hasClass("active");
+          effectsyz[effectName].useNL = $(e.currentTarget).hasClass('active');
         }
         if (sx) {
-          effectsyz[effectName].useSX = $(e.currentTarget).hasClass("active");
+          effectsyz[effectName].useSX = $(e.currentTarget).hasClass('active');
         }
         if (fx) {
-          effectsyz[effectName].useFX = $(e.currentTarget).hasClass("active");
+          effectsyz[effectName].useFX = $(e.currentTarget).hasClass('active');
         }
         if (fp) {
-          effectsyz[effectName].useFP = $(e.currentTarget).hasClass("active");
+          effectsyz[effectName].useFP = $(e.currentTarget).hasClass('active');
         }
         if (ix) {
-          effectsyz[effectName].useIX = $(e.currentTarget).hasClass("active");
+          effectsyz[effectName].useIX = $(e.currentTarget).hasClass('active');
         }
         if (extra) {
           effectsyz[effectName].useEXTRA = $(e.currentTarget).hasClass(
-            "active"
+            'active'
           );
         }
         setURLonEffect(effectsyz[effectName], el);
       });
 
-      $(el).on("click", ".title a.title-url", e => {
-        const timer = $("input.time", el)[0].value * 60;
-        const display = $("span.countdown", el)[0];
+      $(el).on('click', '.title a.title-url', e => {
+        const timer = $('input.time', el)[0].value * 60;
+        const display = $('span.countdown', el)[0];
 
         if (timer2 && timer2.running && isRunning) {
           timer2.stop();
           isRunning = false;
-          $(".effect").each((i, element) => {
-            $(element).removeClass("active");
+          $('.effect').each((i, element) => {
+            $(element).removeClass('active');
           });
           setLastCheckedState();
         } else {
           if (isRunning) {
             timer2.stop();
             isRunning = false;
-            $(".effect").each((i, element) => {
-              $(element).removeClass("active");
+            $('.effect').each((i, element) => {
+              $(element).removeClass('active');
             });
             setLastCheckedState();
           }
           timer2 = new CountDownTimer(timer);
-          $(el).addClass("active");
+          $(el).addClass('active');
           isRunning = true;
           timer2
             .onTick(format(display))
@@ -371,22 +371,22 @@ $(() => {
 
         function checkExpired() {
           if (this.expired()) {
-            $(el).removeClass("active");
+            $(el).removeClass('active');
           } else {
           }
         }
 
         function format(display) {
           return function(minutes, seconds) {
-            minutes = minutes < 10 ? "0" + minutes : minutes;
-            seconds = seconds < 10 ? "0" + seconds : seconds;
-            display.textContent = minutes + ":" + seconds;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            display.textContent = minutes + ':' + seconds;
           };
         }
       });
 
-      $(el).on("click", ".title .deleteButton", e => {
-        const effectName = $(".title-url", el)[0].innerText.toLowerCase();
+      $(el).on('click', '.title .deleteButton', e => {
+        const effectName = $('.title-url', el)[0].innerText.toLowerCase();
         const confirmDelete = confirm(
           `Are you sure you want to delete ${effectName}?`
         );
@@ -397,84 +397,96 @@ $(() => {
         }
       });
 
-      $(".time", el).each((i, ele) => {
-        $(ele).on("input", e => {
-          const effectName = $(".title-url", el)[0].innerText.toLowerCase();
+      $(el).on('click', '.title .deleteButton', e => {
+        const effectName = $('.title-url', el)[0].innerText.toLowerCase();
+        const confirmDelete = confirm(
+          `Are you sure you want to delete ${effectName}?`
+        );
+        if (confirmDelete === true) {
+          delete effectsyz[effectName];
+          // console.log("deleting:", effectName);
+          renderEffectList(effectsyz);
+        }
+      });
+
+      $('.time', el).each((i, ele) => {
+        $(ele).on('input', e => {
+          const effectName = $('.title-url', el)[0].innerText.toLowerCase();
           effectsyz[effectName].timeInMin = e.currentTarget.value;
           setURLonEffect(effectsyz[effectName], el);
         });
       });
-      $(".colorPickerOne", el).each((i, ele) => {
-        $(ele).on("input", e => {
-          const effectName = $(".title-url", el)[0].innerText.toLowerCase();
+      $('.colorPickerOne', el).each((i, ele) => {
+        $(ele).on('input', e => {
+          const effectName = $('.title-url', el)[0].innerText.toLowerCase();
           effectsyz[effectName].colorOne = e.currentTarget.value
-            .replace("#", "")
+            .replace('#', '')
             .toUpperCase();
           setURLonEffect(effectsyz[effectName], el);
         });
       });
-      $(".colorPickerTwo", el).each((i, ele) => {
-        $(ele).on("input", e => {
-          const effectName = $(".title-url", el)[0].innerText.toLowerCase();
+      $('.colorPickerTwo', el).each((i, ele) => {
+        $(ele).on('input', e => {
+          const effectName = $('.title-url', el)[0].innerText.toLowerCase();
           effectsyz[effectName].colorTwo = e.currentTarget.value
-            .replace("#", "")
+            .replace('#', '')
             .toUpperCase();
           setURLonEffect(effectsyz[effectName], el);
         });
       });
-      $(".brightStart", el).each((i, ele) => {
-        $(ele).on("input", e => {
-          const effectName = $(".title-url", el)[0].innerText.toLowerCase();
+      $('.brightStart', el).each((i, ele) => {
+        $(ele).on('input', e => {
+          const effectName = $('.title-url', el)[0].innerText.toLowerCase();
           effectsyz[effectName].brightnessStart = e.currentTarget.value;
           setURLonEffect(effectsyz[effectName], el);
         });
       });
-      $(".brightEnd", el).each((i, ele) => {
-        $(ele).on("input", e => {
-          const effectName = $(".title-url", el)[0].innerText.toLowerCase();
+      $('.brightEnd', el).each((i, ele) => {
+        $(ele).on('input', e => {
+          const effectName = $('.title-url', el)[0].innerText.toLowerCase();
           effectsyz[effectName].brightnessEnd = e.currentTarget.value;
           setURLonEffect(effectsyz[effectName], el);
         });
       });
-      $(".fx", el).each((i, ele) => {
-        $(ele).on("input", e => {
-          const effectName = $(".title-url", el)[0].innerText.toLowerCase();
+      $('.fx', el).each((i, ele) => {
+        $(ele).on('input', e => {
+          const effectName = $('.title-url', el)[0].innerText.toLowerCase();
           effectsyz[effectName].fx = e.currentTarget.value;
           setURLonEffect(effectsyz[effectName], el);
         });
       });
-      $(".ix", el).each((i, ele) => {
-        $(ele).on("input", e => {
-          const effectName = $(".title-url", el)[0].innerText.toLowerCase();
+      $('.ix', el).each((i, ele) => {
+        $(ele).on('input', e => {
+          const effectName = $('.title-url', el)[0].innerText.toLowerCase();
           effectsyz[effectName].ix = e.currentTarget.value;
           setURLonEffect(effectsyz[effectName], el);
         });
       });
-      $(".fp", el).each((i, ele) => {
-        $(ele).on("input", e => {
-          const effectName = $(".title-url", el)[0].innerText.toLowerCase();
+      $('.fp', el).each((i, ele) => {
+        $(ele).on('input', e => {
+          const effectName = $('.title-url', el)[0].innerText.toLowerCase();
           effectsyz[effectName].fp = e.currentTarget.value;
           setURLonEffect(effectsyz[effectName], el);
         });
       });
-      $(".fxSpeed", el).each((i, ele) => {
-        $(ele).on("input", e => {
-          const effectName = $(".title-url", el)[0].innerText.toLowerCase();
+      $('.fxSpeed', el).each((i, ele) => {
+        $(ele).on('input', e => {
+          const effectName = $('.title-url', el)[0].innerText.toLowerCase();
           effectsyz[effectName].fxSpeed = e.currentTarget.value;
           setURLonEffect(effectsyz[effectName], el);
         });
       });
-      $(".extra", el).each((i, ele) => {
-        $(ele).on("input", e => {
-          const effectName = $(".title-url", el)[0].innerText.toLowerCase();
+      $('.extra', el).each((i, ele) => {
+        $(ele).on('input', e => {
+          const effectName = $('.title-url', el)[0].innerText.toLowerCase();
           effectsyz[effectName].extra = e.currentTarget.value;
           setURLonEffect(effectsyz[effectName], el);
         });
       });
-      $(".dev").each((i, ele) => {
+      $('.dev').each((i, ele) => {
         $(ele).hide();
       });
-      $("#inputIP").removeClass("and-dev");
+      $('#inputIP').removeClass('and-dev');
     });
   };
   if (
@@ -492,8 +504,8 @@ $(() => {
     }, 1000);
   }
 
-  $(".save").on("click", e => {
-    const userEffectName = prompt("Effect Name", "Sunrise");
+  $('.save').on('click', e => {
+    const userEffectName = prompt('Effect Name', 'Sunrise');
 
     if (userEffectName !== null) {
       if (!Object.keys(effectsyz).includes(userEffectName.toLowerCase())) {
@@ -521,53 +533,53 @@ $(() => {
           useEXTRA: effectsyz[tempOldName].useEXTRA
         };
         effectsyz[newName] = tempObj;
-        console.log("SAVED:", effectsyz);
-        $("#inputIP").removeClass("and-dev");
+        console.log('SAVED:', effectsyz);
+        $('#inputIP').removeClass('and-dev');
         renderEffectList(effectsyz);
         changeHandlers();
       } else {
-        alert("Effect already in List!");
+        alert('Effect already in List!');
       }
     }
   });
-  $("#searchInput").each((i, ele) => {
+  $('#searchInput').each((i, ele) => {
     /* prepared with each if multiple required. (change id to class then) */
-    $(ele).on("input", e => {
+    $(ele).on('input', e => {
       renderEffectList(effectsyz, e.currentTarget.value);
-      $(".effect.template.dev").each((i, element) => {
-        $("#inputIP").hasClass("and-dev") ? false : false;
+      $('.effect.template.dev').each((i, element) => {
+        $('#inputIP').hasClass('and-dev') ? false : false;
       });
       changeHandlers();
     });
   });
-  $("#dev-toggler").on("click", () => {
-    $(".dev").each((i, ele) => {
+  $('#dev-toggler').on('click', () => {
+    $('.dev').each((i, ele) => {
       $(ele).toggle();
     });
-    $("#inputIP").toggleClass("and-dev");
+    $('#inputIP').toggleClass('and-dev');
   });
-  $("#dev2-toggler").on("click", () => {
-    $(".dev2").each((i, ele) => {
+  $('#dev2-toggler').on('click', () => {
+    $('.dev2').each((i, ele) => {
       $(ele).toggle();
     });
   });
-  $("#dev-button6").on("click", () => {
+  $('#dev-button6').on('click', () => {
     renderEffectList(effectsyz);
     changeHandlers();
   });
-  $("#export").on("click", e => {
+  $('#export').on('click', e => {
     // console.log('Exporting:', effectsyz);
     const filtered = Object.filter(
       effectsyz,
-      effect => effect.name !== "template"
+      effect => effect.name !== 'template'
     );
     download(
-      "config.js",
-      `const effects = ${JSON.stringify(filtered, "\t", 2)};
+      'config.js',
+      `const effects = ${JSON.stringify(filtered, '\t', 2)};
 const globals = {
-  "ip": "${$("#inputIP")[0].value}",
-  "wledPalettes": ${JSON.stringify(globals.wledPalettes, "\t", 4)},
-  "wledEffects": ${JSON.stringify(globals.wledEffects, "\t", 4)}}`
+  "ip": "${$('#inputIP')[0].value}",
+  "wledPalettes": ${JSON.stringify(globals.wledPalettes, '\t', 4)},
+  "wledEffects": ${JSON.stringify(globals.wledEffects, '\t', 4)}}`
     );
   });
 });

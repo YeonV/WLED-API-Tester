@@ -11,10 +11,8 @@
   <body>
     <h1>
       <span id="dev-button2">B</span><span id="dev-button3">l</span
-      ><span id="dev-button5">a</span><span id="dev-button6">d</span>e<span
-        id="dev2-toggler"
-        >'</span
-      >s
+      ><span id="dev-button5">a</span><span id="dev-button6">d</span
+      ><span id="dev-button7">e</span><span id="dev2-toggler">'</span>s
       <a href="https://github.com/Aircoookie/WLED">WLED</a>
       <a href="https://github.com/Aircoookie/WLED/wiki/HTTP-request-API"
         >HTTP-API</a
@@ -60,12 +58,70 @@
           SET new State from Textarea
         </button>
       </div>
+      <div class="dev3">
+        <h3>CMS</h3>
+        <textarea id="currentCMS"></textarea>
+        <button style="width: 100%; margin-bottom: 2rem;" id="cms-get">
+          GET all Posts to Textarea
+        </button>
+        <input
+          style="width: 100%; margin-bottom: 0.25rem; margin-top: 0.25rem;"
+          type="text"
+          placeholder="Username"
+          id="wpUser"
+        />
+        <input
+          style="width: 100%; margin-bottom: 0.25rem; margin-top: 0.25rem;"
+          type="password"
+          placeholder="Password"
+          id="wpPass"
+        />
+        <input
+          style="width: 100%; margin-bottom: 0.25rem; margin-top: 0.25rem;"
+          type="text"
+          placeholder="Title"
+          id="wpTitle"
+        />
+        <input
+          style="width: 100%; margin-bottom: 0.25rem; margin-top: 0.25rem;"
+          type="text"
+          placeholder="API-String"
+          id="wpContent"
+        />
+        <button
+          style="width: 100%;  margin-bottom: 2rem;"
+          id="cms-post"
+          class="button"
+        >
+          Send New Post from Textarea
+        </button>
+        <input type="file" id="wpFeatImg" />
+        <button style="width: 100%;" id="pixabayTrigger" class="button">
+          Get Image from Pixabay
+        </button>
+        <div id="pixabayFrame">
+          <div id="pixabayWrapper">
+            <div class="pixa-header"><input id="pixa-search" /></div>
+            <div class="pixa-grid"></div>
+            <div class="pixa-footer">
+              <a href="https://pixabay.com/">
+                <img src="https://pixabay.com/static/img/logo.png" />
+              </a>
+            </div>
+          </div>
+        </div>
+        <button style="width: 100%;" id="cms-post2" class="button">
+          Send Image from Textarea
+        </button>
+      </div>
     </div>
+
     <iframe id="hiddenFrame" name="hiddenFrame"></iframe>
     <script src="assets/jquery.js"></script>
     <script src="config.js"></script>
     <script src="assets/utils.js"></script>
     <script src="assets/jsonapi.js"></script>
     <script src="assets/main.js"></script>
+    <script src="assets/cms.js"></script>
   </body>
 </html>
