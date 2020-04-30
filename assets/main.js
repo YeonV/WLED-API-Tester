@@ -401,7 +401,7 @@ $(() => {
         const effectName = $('.title-url', el)[0].innerText.toLowerCase();
 
         window.open(
-          `http://wled.ddns.net:82/WLED-CMS/wp-admin/post-new.php?post_title=${encodeURIComponent(
+          `https://wled.yeonv.com/wp-admin/post-new.php?post_title=${encodeURIComponent(
             effectName
           )}&excerpt=${encodeURIComponent(
             effectsyz[effectName].urlString.split('win')[1]

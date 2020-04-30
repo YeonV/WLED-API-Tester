@@ -1,9 +1,41 @@
 let currentPosts = {};
 let newPostId = null;
 let newImgId = null;
+function uploadImageAsync(urlbase, uri, base64, token) {
+  let apiUrl = urlbase + '/wp-json/wp/v2/media';
+  let formData = new FormData();
+  const fileField = document.querySelector('input[type="file"]');
+  console.log('YY', fileField.files[0]);
+  formData.append('attachment', fileField.files[0]);
+  //dynamically get file type
 
+  let uriParts = uri.split('.');
+  let fileType = uriParts[uriParts.length - 1];
+
+  formData.append('file', {
+    media: base64,
+    name: `photo-yz.${fileType}`,
+    type: `image/${fileType}`
+  });
+
+  let options = {
+    method: 'POST',
+    body: formData,
+    headers: {
+      Accept: 'application/json',
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'multipart/form-data',
+      'Cache-Control': 'no-cache'
+    }
+  };
+
+  console.log('header options: ', options);
+  console.log('form-data options: ', formData);
+
+  return fetch(apiUrl, options);
+}
 const getPosts = () => {
-  fetch('http://wled.ddns.net:82/WLED-CMS/wp-json/wp/v2/posts')
+  fetch('https://wled.yeonv.com/wp-json/wp/v2/posts')
     .then(function(response) {
       return response.json();
     })
@@ -18,7 +50,7 @@ const getPosts = () => {
     });
 };
 const getPost = () => {
-  fetch('http://wled.ddns.net:82/WLED-CMS/wp-json/wp/v2/posts')
+  fetch('https://wled.yeonv.com/wp-json/wp/v2/posts')
     .then(function(response) {
       return response.json();
     })
@@ -35,7 +67,7 @@ const getPost = () => {
 
 const getToken = () => {
   console.log('Getting Token for: ', $('#wpUser')[0].value);
-  fetch('http://wled.ddns.net:82/WLED-CMS/wp-json/jwt-auth/v1/token', {
+  fetch('https://wled.yeonv.com/wp-json/jwt-auth/v1/token', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -65,7 +97,7 @@ let token;
 
 const createPost = (title, content) => {
   console.log('CREATING NEW POST:', title);
-  fetch('http://wled.ddns.net:82/WLED-CMS/wp-json/wp/v2/posts', {
+  fetch('https://wled.yeonv.com/wp-json/wp/v2/posts', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -90,7 +122,7 @@ const createPost = (title, content) => {
     });
 };
 const updatePostWithImg = (postid, imgid) => {
-  fetch(`http://wled.ddns.net:82/WLED-CMS/wp-json/wp/v2/posts/${postid}`, {
+  fetch(`https://wled.yeonv.com/wp-json/wp/v2/posts/${postid}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -159,64 +191,70 @@ const saveBase64AsFile = (base64, fileName) => {
   link.setAttribute('download', fileName);
   link.click();
 };
-const uploadImgToWP = () => {
-  // console.log("FILENAME:", $(wpFeatImg)[0], $(wpFeatImg)[0].value);
+const uploadImgToWP = base64 => {
+  console.log('FILENAME:', $(wpFeatImg)[0], $(wpFeatImg)[0].value);
 
-  const formData = new FormData();
-  const fileField = document.querySelector('input[type="file"]');
-  formData.append('title', fileField.files[0].name);
-  formData.append('content', fileField.files[0].name);
-  formData.append('media[0]', fileField.files[0]);
-
-  fetch('http://wled.ddns.net:82/WLED-CMS/wp-json/wp/v2/media', {
-    method: 'POST',
-    headers: {
-      'Content-Disposition': `form-data; attachment; filename="${fileField.files[0].name}"`,
-      Authorization: 'Bearer ' + token
-    },
-    body: formData
-  })
-    .then(response => response.json())
-    .then(result => {
-      if (result.data.status !== 200) {
-        console.error('ERROR', result);
-      } else {
-        console.log('Success:', result);
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  return;
   if (
     document.cookie.split(';').some(item => item.trim().startsWith('token='))
   ) {
     token = getCookieValue('token');
+    console.log(
+      '---->https://wled.yeonv.com',
+      'test.png',
 
-    fetch('http://wled.ddns.net:82/WLED-CMS/wp-json/wp/v2/media', {
+      token
+    );
+    const formData = new FormData();
+    const fileField = document.querySelector('input[type="file"]');
+    formData.append('attachment', fileField.files[0]);
+
+    fetch('https://wled.yeonv.com/wp-json/wp/v2/media', {
       method: 'POST',
       headers: {
-        'Content-Type': 'image/jpeg',
-        'Content-Disposition': `attachment; filename=${$(wpFeatImg)[0].value}`,
-        accept: 'application/json',
-        Authorization: 'Bearer ' + token
+        'Content-Disposition': `form-data; attachment; filename="${fileField.files[0].name}"`,
+        Authorization:
+          'Basic ' + btoa(`${$('#wpUser')[0].value}:${$('#wpPass')[0].value}`)
       },
-      body: img
+      body: formData
     })
-      .then(function(response) {
-        return response.json();
+      .then(response => response.json())
+      .then(result => {
+        if (result.data.status !== 200) {
+          console.error('ERROR', result);
+        } else {
+          console.log('Success:', result);
+        }
       })
-      .then(function(imgResponse) {
-        console.log(imgResponse);
+      .catch(error => {
+        console.error('Error:', error);
       });
+    return;
+
+    uploadImageAsync('https://wled.yeonv.com', 'test.png', base64, token);
+    // fetch("https://wled.yeonv.com/wp-json/wp/v2/media", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "image/jpeg",
+    //     "Content-Disposition": `attachment; filename=${$(wpFeatImg)[0].value}`,
+    //     accept: "application/json",
+    //     Authorization: "Bearer " + token
+    //   },
+    //   body: img
+    // })
+    //   .then(function(response) {
+    //     return response.json();
+    //   })
+    //   .then(function(imgResponse) {
+    //     console.log(imgResponse);
+    //   });
   } else {
     getToken();
   }
 };
 
 $('#pixabayTrigger').on('click', () => {
-  uploadImgToWP();
-  return;
+  // uploadImgToWP();
+  // return;
   $('#pixabayFrame').fadeIn();
   $('#pixabayWrapper').fadeIn();
   $('#pixabayFrame:not(#pixabayWrapper)').on('click', () => {
@@ -260,7 +298,7 @@ $('#pixabayTrigger').on('click', () => {
           toDataURL($(el).data('url')).then(dataUrl => {
             console.log('RESULT:', dataUrl);
             //saveBase64AsFile(dataUrl, 'effect_background');
-            uploadImgToWP();
+            uploadImgToWP(dataUrl);
           });
         });
       });
